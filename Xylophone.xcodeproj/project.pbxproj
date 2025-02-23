@@ -19,6 +19,7 @@
 		63C019F31C58E4AD001F4187 /* note5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63C019EC1C58E4AD001F4187 /* note5.wav */; };
 		63C019F41C58E4AD001F4187 /* note6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63C019ED1C58E4AD001F4187 /* note6.wav */; };
 		63C019F51C58E4AD001F4187 /* note7.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63C019EE1C58E4AD001F4187 /* note7.wav */; };
+		9D0171EA2D6BB1210061B485 /* ToneProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0171E92D6BB1210061B485 /* ToneProcessor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		63C019EC1C58E4AD001F4187 /* note5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note5.wav; sourceTree = "<group>"; };
 		63C019ED1C58E4AD001F4187 /* note6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note6.wav; sourceTree = "<group>"; };
 		63C019EE1C58E4AD001F4187 /* note7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note7.wav; sourceTree = "<group>"; };
+		9D0171E92D6BB1210061B485 /* ToneProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneProcessor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -89,6 +91,7 @@
 				63C019D11C58DF76001F4187 /* LaunchScreen.storyboard */,
 				63C019D41C58DF76001F4187 /* Info.plist */,
 				6385B12D1C68C76C00E57640 /* Sound Files */,
+				9D0171E92D6BB1210061B485 /* ToneProcessor.swift */,
 			);
 			path = Xylophone;
 			sourceTree = "<group>";
@@ -134,6 +137,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -172,6 +176,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D0171EA2D6BB1210061B485 /* ToneProcessor.swift in Sources */,
 				63C019CB1C58DF76001F4187 /*  VIewController.swift in Sources */,
 				63C019C91C58DF76001F4187 /* AppDelegate.swift in Sources */,
 			);
@@ -301,6 +306,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Xylophone/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.YourName.Xylophone;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -314,6 +320,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = Xylophone/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.6;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.YourName.Xylophone;
 				PRODUCT_NAME = "$(TARGET_NAME)";

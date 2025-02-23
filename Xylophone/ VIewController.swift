@@ -18,9 +18,9 @@ class ViewController: UIViewController{
 
 
     @IBAction func notePressed(_ sender: UIButton) {
-        
-        
-        
+        let anyTone = ToneProcessor()
+        print(anyTone.numToTone[sender.tag]!)
+
     }
     
   

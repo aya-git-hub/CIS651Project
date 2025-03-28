@@ -22,6 +22,7 @@ class ToneProcessor {
         (7, "ti")
     )
     var audioPlayer: AVAudioPlayer?
+    var DB:DatabaseManager = DatabaseManager()
     
     // 依次播放录制的音阶（简单延时播放）
     

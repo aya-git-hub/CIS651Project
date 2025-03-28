@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		63C019C91C58DF76001F4187 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C019C81C58DF76001F4187 /* AppDelegate.swift */; };
-		63C019CB1C58DF76001F4187 /*  VIewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63C019CA1C58DF76001F4187 /*  VIewController.swift */; };
 		63C019CE1C58DF76001F4187 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63C019CC1C58DF76001F4187 /* Main.storyboard */; };
 		63C019D01C58DF76001F4187 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63C019CF1C58DF76001F4187 /* Assets.xcassets */; };
 		63C019D31C58DF76001F4187 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 63C019D11C58DF76001F4187 /* LaunchScreen.storyboard */; };
@@ -19,12 +17,28 @@
 		63C019F31C58E4AD001F4187 /* note5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63C019EC1C58E4AD001F4187 /* note5.wav */; };
 		63C019F41C58E4AD001F4187 /* note6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63C019ED1C58E4AD001F4187 /* note6.wav */; };
 		63C019F51C58E4AD001F4187 /* note7.wav in Resources */ = {isa = PBXBuildFile; fileRef = 63C019EE1C58E4AD001F4187 /* note7.wav */; };
-		9D0171EA2D6BB1210061B485 /* ToneProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0171E92D6BB1210061B485 /* ToneProcessor.swift */; };
 		9D01721A2D6BB9F40061B485 /* ToneView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0172192D6BB9F40061B485 /* ToneView.swift */; };
 		9D01721C2D6BBE530061B485 /* RecordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D01721B2D6BBE530061B485 /* RecordView.swift */; };
 		9D01721E2D6BBF890061B485 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D01721D2D6BBF890061B485 /* MainView.swift */; };
 		9D0172222D6BC2E70061B485 /* RecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0172212D6BC2E70061B485 /* RecordViewModel.swift */; };
 		9D0172242D6BD2CD0061B485 /* AppEnter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0172232D6BD2CD0061B485 /* AppEnter.swift */; };
+		9D51B7792D973789001291C2 /* note1.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B7652D973789001291C2 /* note1.wav */; };
+		9D51B77A2D973789001291C2 /* UserDatabase3.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B7762D973789001291C2 /* UserDatabase3.sqlite */; };
+		9D51B77B2D973789001291C2 /* note2.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B7662D973789001291C2 /* note2.wav */; };
+		9D51B77C2D973789001291C2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B7722D973789001291C2 /* README.md */; };
+		9D51B77F2D973789001291C2 /* note7.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B76B2D973789001291C2 /* note7.wav */; };
+		9D51B7802D973789001291C2 /* note4.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B7682D973789001291C2 /* note4.wav */; };
+		9D51B7812D973789001291C2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B7642D973789001291C2 /* Main.storyboard */; };
+		9D51B7832D973789001291C2 /* note3.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B7672D973789001291C2 /* note3.wav */; };
+		9D51B7842D973789001291C2 /* note6.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B76A2D973789001291C2 /* note6.wav */; };
+		9D51B7862D973789001291C2 /* note5.wav in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B7692D973789001291C2 /* note5.wav */; };
+		9D51B78E2D973789001291C2 /* DownloadPlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D51B7552D973789001291C2 /* DownloadPlayView.swift */; };
+		9D51B78F2D973789001291C2 /* ToneProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D51B76E2D973789001291C2 /* ToneProcessor.swift */; };
+		9D51B7912D973789001291C2 /* DatabaseManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D51B7732D973789001291C2 /* DatabaseManager.swift */; };
+		9D51B7922D973789001291C2 /*  VIewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D51B75B2D973789001291C2 /*  VIewController.swift */; };
+		9D51B7932D973789001291C2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D51B75C2D973789001291C2 /* AppDelegate.swift */; };
+		9D51B7942D9737CD001291C2 /* TheUserDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B7532D973789001291C2 /* TheUserDatabase.sqlite */; };
+		9D51B7962D973AC0001291C2 /* DownloadPlayViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D51B7562D973789001291C2 /* DownloadPlayViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +62,34 @@
 		9D01721D2D6BBF890061B485 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		9D0172212D6BC2E70061B485 /* RecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewModel.swift; sourceTree = "<group>"; };
 		9D0172232D6BD2CD0061B485 /* AppEnter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnter.swift; sourceTree = "<group>"; };
+		9D51B7532D973789001291C2 /* TheUserDatabase.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = TheUserDatabase.sqlite; sourceTree = "<group>"; };
+		9D51B7552D973789001291C2 /* DownloadPlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadPlayView.swift; sourceTree = "<group>"; };
+		9D51B7562D973789001291C2 /* DownloadPlayViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadPlayViewModel.swift; sourceTree = "<group>"; };
+		9D51B7572D973789001291C2 /* UserDatabase.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = UserDatabase.sqlite; sourceTree = "<group>"; };
+		9D51B7592D973789001291C2 /* DatabaseManagement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManagement.swift; sourceTree = "<group>"; };
+		9D51B75B2D973789001291C2 /*  VIewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = " VIewController.swift"; sourceTree = "<group>"; };
+		9D51B75C2D973789001291C2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		9D51B75D2D973789001291C2 /* AppEnter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppEnter.swift; sourceTree = "<group>"; };
+		9D51B75E2D973789001291C2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9D51B7602D973789001291C2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9D51B7612D973789001291C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9D51B7632D973789001291C2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		9D51B7652D973789001291C2 /* note1.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note1.wav; sourceTree = "<group>"; };
+		9D51B7662D973789001291C2 /* note2.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note2.wav; sourceTree = "<group>"; };
+		9D51B7672D973789001291C2 /* note3.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note3.wav; sourceTree = "<group>"; };
+		9D51B7682D973789001291C2 /* note4.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note4.wav; sourceTree = "<group>"; };
+		9D51B7692D973789001291C2 /* note5.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note5.wav; sourceTree = "<group>"; };
+		9D51B76A2D973789001291C2 /* note6.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note6.wav; sourceTree = "<group>"; };
+		9D51B76B2D973789001291C2 /* note7.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = note7.wav; sourceTree = "<group>"; };
+		9D51B76C2D973789001291C2 /* RecordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordView.swift; sourceTree = "<group>"; };
+		9D51B76D2D973789001291C2 /* RecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecordViewModel.swift; sourceTree = "<group>"; };
+		9D51B76E2D973789001291C2 /* ToneProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneProcessor.swift; sourceTree = "<group>"; };
+		9D51B76F2D973789001291C2 /* ToneView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToneView.swift; sourceTree = "<group>"; };
+		9D51B7712D973789001291C2 /* MusicPlayer.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; path = MusicPlayer.xcodeproj; sourceTree = "<group>"; };
+		9D51B7722D973789001291C2 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		9D51B7732D973789001291C2 /* DatabaseManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseManager.swift; sourceTree = "<group>"; };
+		9D51B7742D973789001291C2 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
+		9D51B7762D973789001291C2 /* UserDatabase3.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = UserDatabase3.sqlite; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +120,14 @@
 		63C019BC1C58DF76001F4187 = {
 			isa = PBXGroup;
 			children = (
+				9D51B7542D973789001291C2 /* database */,
+				9D51B7552D973789001291C2 /* DownloadPlayView.swift */,
+				9D51B7562D973789001291C2 /* DownloadPlayViewModel.swift */,
+				9D51B7702D973789001291C2 /* MusicPlayer */,
+				9D51B7712D973789001291C2 /* MusicPlayer.xcodeproj */,
+				9D51B7722D973789001291C2 /* README.md */,
+				9D51B7752D973789001291C2 /* userDao */,
+				9D51B7762D973789001291C2 /* UserDatabase3.sqlite */,
 				9D01721D2D6BBF890061B485 /* MainView.swift */,
 				63C019C71C58DF76001F4187 /* MusicPlayer */,
 				63C019C61C58DF76001F4187 /* Products */,
@@ -109,6 +159,71 @@
 				9D0172232D6BD2CD0061B485 /* AppEnter.swift */,
 			);
 			path = MusicPlayer;
+			sourceTree = "<group>";
+		};
+		9D51B7542D973789001291C2 /* database */ = {
+			isa = PBXGroup;
+			children = (
+				9D51B7532D973789001291C2 /* TheUserDatabase.sqlite */,
+			);
+			path = database;
+			sourceTree = "<group>";
+		};
+		9D51B7582D973789001291C2 /* database */ = {
+			isa = PBXGroup;
+			children = (
+				9D51B7572D973789001291C2 /* UserDatabase.sqlite */,
+			);
+			path = database;
+			sourceTree = "<group>";
+		};
+		9D51B75A2D973789001291C2 /* userDao */ = {
+			isa = PBXGroup;
+			children = (
+				9D51B7592D973789001291C2 /* DatabaseManagement.swift */,
+			);
+			path = userDao;
+			sourceTree = "<group>";
+		};
+		9D51B7702D973789001291C2 /* MusicPlayer */ = {
+			isa = PBXGroup;
+			children = (
+				9D51B7582D973789001291C2 /* database */,
+				9D51B75A2D973789001291C2 /* userDao */,
+				9D51B75B2D973789001291C2 /*  VIewController.swift */,
+				9D51B75C2D973789001291C2 /* AppDelegate.swift */,
+				9D51B75D2D973789001291C2 /* AppEnter.swift */,
+				9D51B75E2D973789001291C2 /* Assets.xcassets */,
+				9D51B7602D973789001291C2 /* Info.plist */,
+				9D51B7622D973789001291C2 /* LaunchScreen.storyboard */,
+				9D51B7642D973789001291C2 /* Main.storyboard */,
+				9D51B7652D973789001291C2 /* note1.wav */,
+				9D51B7662D973789001291C2 /* note2.wav */,
+				9D51B7672D973789001291C2 /* note3.wav */,
+				9D51B7682D973789001291C2 /* note4.wav */,
+				9D51B7692D973789001291C2 /* note5.wav */,
+				9D51B76A2D973789001291C2 /* note6.wav */,
+				9D51B76B2D973789001291C2 /* note7.wav */,
+				9D51B76C2D973789001291C2 /* RecordView.swift */,
+				9D51B76D2D973789001291C2 /* RecordViewModel.swift */,
+				9D51B76E2D973789001291C2 /* ToneProcessor.swift */,
+				9D51B76F2D973789001291C2 /* ToneView.swift */,
+			);
+			path = MusicPlayer;
+			sourceTree = "<group>";
+		};
+		9D51B7752D973789001291C2 /* userDao */ = {
+			isa = PBXGroup;
+			children = (
+				9D51B7732D973789001291C2 /* DatabaseManager.swift */,
+				9D51B7742D973789001291C2 /* MyPlayground.playground */,
+			);
+			path = userDao;
+			sourceTree = "<group>";
+		};
+		9D51B7772D973789001291C2 /* Products */ = {
+			isa = PBXGroup;
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -160,6 +275,12 @@
 			mainGroup = 63C019BC1C58DF76001F4187;
 			productRefGroup = 63C019C61C58DF76001F4187 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 9D51B7772D973789001291C2 /* Products */;
+					ProjectRef = 9D51B7712D973789001291C2 /* MusicPlayer.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				63C019C41C58DF76001F4187 /* MusicPlayer */,
@@ -172,6 +293,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D51B7942D9737CD001291C2 /* TheUserDatabase.sqlite in Resources */,
 				63C019F41C58E4AD001F4187 /* note6.wav in Resources */,
 				63C019F31C58E4AD001F4187 /* note5.wav in Resources */,
 				63C019F11C58E4AD001F4187 /* note3.wav in Resources */,
@@ -180,6 +302,16 @@
 				63C019F01C58E4AD001F4187 /* note2.wav in Resources */,
 				63C019F51C58E4AD001F4187 /* note7.wav in Resources */,
 				63C019D31C58DF76001F4187 /* LaunchScreen.storyboard in Resources */,
+				9D51B7792D973789001291C2 /* note1.wav in Resources */,
+				9D51B77A2D973789001291C2 /* UserDatabase3.sqlite in Resources */,
+				9D51B77B2D973789001291C2 /* note2.wav in Resources */,
+				9D51B77C2D973789001291C2 /* README.md in Resources */,
+				9D51B77F2D973789001291C2 /* note7.wav in Resources */,
+				9D51B7802D973789001291C2 /* note4.wav in Resources */,
+				9D51B7812D973789001291C2 /* Main.storyboard in Resources */,
+				9D51B7832D973789001291C2 /* note3.wav in Resources */,
+				9D51B7842D973789001291C2 /* note6.wav in Resources */,
+				9D51B7862D973789001291C2 /* note5.wav in Resources */,
 				63C019D01C58DF76001F4187 /* Assets.xcassets in Resources */,
 				63C019CE1C58DF76001F4187 /* Main.storyboard in Resources */,
 			);
@@ -192,14 +324,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D51B7962D973AC0001291C2 /* DownloadPlayViewModel.swift in Sources */,
 				9D0172242D6BD2CD0061B485 /* AppEnter.swift in Sources */,
-				9D0171EA2D6BB1210061B485 /* ToneProcessor.swift in Sources */,
 				9D0172222D6BC2E70061B485 /* RecordViewModel.swift in Sources */,
+				9D51B78E2D973789001291C2 /* DownloadPlayView.swift in Sources */,
+				9D51B78F2D973789001291C2 /* ToneProcessor.swift in Sources */,
+				9D51B7912D973789001291C2 /* DatabaseManager.swift in Sources */,
+				9D51B7922D973789001291C2 /*  VIewController.swift in Sources */,
+				9D51B7932D973789001291C2 /* AppDelegate.swift in Sources */,
 				9D01721E2D6BBF890061B485 /* MainView.swift in Sources */,
-				63C019CB1C58DF76001F4187 /*  VIewController.swift in Sources */,
 				9D01721A2D6BB9F40061B485 /* ToneView.swift in Sources */,
 				9D01721C2D6BBE530061B485 /* RecordView.swift in Sources */,
-				63C019C91C58DF76001F4187 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -220,6 +355,22 @@
 				63C019D21C58DF76001F4187 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		9D51B7622D973789001291C2 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9D51B7612D973789001291C2 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		9D51B7642D973789001291C2 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				9D51B7632D973789001291C2 /* Base */,
+			);
+			name = Main.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

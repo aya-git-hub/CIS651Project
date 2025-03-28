@@ -12,6 +12,7 @@ struct ToneView: View {
             toneProcessor.playSound(note: note)
             if let intNote = Int(note), let tone = ToneProcessor.numToTone[intNote] {
                 print(tone)
+                
             }
         }) {
             Text("")

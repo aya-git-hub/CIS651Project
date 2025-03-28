@@ -12,9 +12,11 @@ import AVFoundation
 class RecordViewModel: ObservableObject{
     @Published var recordedNotes = Array<String>();
     @Published  var audioPlayer: AVAudioPlayer?
-    let toneProcessor = ToneProcessor();
+    
+    let toneProcessor = ToneProcessor()
     
     func playRecording() {
+        
         let notes = recordedNotes
         for (index, note) in notes.enumerated() {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.5) {
@@ -23,3 +25,4 @@ class RecordViewModel: ObservableObject{
         }
     }
 }
+

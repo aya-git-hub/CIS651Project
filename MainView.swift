@@ -25,6 +25,16 @@ struct MainView: View {
                         .background(Color.gray.opacity(0.3))
                         .cornerRadius(10)
                 }
+                NavigationLink(destination:  DownloadPlayView()) {
+                    Text("Go to Download View")
+                        .font(.title2)
+                        .padding()
+                        .background(Color.gray.opacity(0.3))
+                        .cornerRadius(10)
+                }
+                
+                
+                
             }
             .navigationTitle("Tones App")
         }

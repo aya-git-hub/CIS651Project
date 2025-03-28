@@ -1,6 +1,8 @@
 import SwiftUI
 import AVFoundation
 
+
+
 struct RecordView: View {
     @Environment(\.presentationMode) var presentationMode
     @State private var audioPlayer: AVAudioPlayer?
@@ -40,6 +42,7 @@ struct RecordView: View {
                 // 下部：三个控制按钮
                 HStack(spacing: 20) {
                     Button(action: {
+                        
                         // 切换录制状态，开始录制时清空之前记录
                         self.isRecording.toggle()
                         if self.isRecording {

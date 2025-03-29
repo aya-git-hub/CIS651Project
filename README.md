@@ -1,11 +1,17 @@
-# Xylophone
-Learn to make iOS Apps with [The App Brewery](https://www.appbrewery.co) 📱 | Project Stub | (Swift 4.0/Xcode 9)
+# MusicPlayer
+introduction:xxx
 
-Beginner: Download the starter project files as .zip and extract the files to your desktop.
+## GroupMember
+Yuao Ai, Pengfei Liu, Zhao Wang
 
-Pro: Git clone to your Xcode projects folder.
+### Directory Structure
 
-## Finished App
-<img src="https://github.com/londonappbrewery/Images/blob/master/Xylophone.png" width="400">
-
-Copyright © London App Brewery
+| Folder (MusicPlayer/) | Contents                                                                | 
+|-----------------------|-------------------------------------------------------------------------|
+| Views/                | Views that define the app's user interface                              | 
+| ViewModels/           | Observable Object classes that handle view logic and bind data to views |
+| Dao/                  | Connect to Datavase, and access data                                    |
+| Resources/            | App resources like: tones, pictures                                     |
+| Utils/                | Some helper classes                                                     
+| AppEnter.swift        | App's entry                                                             
+| MainView.swift        | Main view                                                               

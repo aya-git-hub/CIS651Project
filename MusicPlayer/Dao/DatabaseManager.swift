@@ -42,10 +42,7 @@ class DatabaseManager {
         var result = self.queryRecords(tableName: "Musics",condition: "1=1")
         print(result.count)
         let musicNames = result.compactMap { $0["MusicName"] as? String }
-        
         return musicNames
-    
-        
     }
     func listTables() -> [String] {
         var tables: [String] = []

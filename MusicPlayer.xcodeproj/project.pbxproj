@@ -26,7 +26,7 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		9D51B7972D97764B001291C2 /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
 		9D51B7A22D978374001291C2 /* Dao */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Dao; sourceTree = "<group>"; };
-		9D51B7A42D97837B001291C2 /* resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = resources; sourceTree = "<group>"; };
+		9D51B7A42D97837B001291C2 /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
 		9D51B7AE2D9786A7001291C2 /* ViewModels */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModels; sourceTree = "<group>"; };
 		9D51B7AF2D978718001291C2 /* Utils */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Utils; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -78,7 +78,7 @@
 				9D51B75D2D973789001291C2 /* AppEnter.swift */,
 				9D51B75E2D973789001291C2 /* Assets.xcassets */,
 				9D51B7602D973789001291C2 /* Info.plist */,
-				9D51B7A42D97837B001291C2 /* resources */,
+				9D51B7A42D97837B001291C2 /* Resources */,
 				9D01721D2D6BBF890061B485 /* MainView.swift */,
 			);
 			path = MusicPlayer;
@@ -102,7 +102,7 @@
 			fileSystemSynchronizedGroups = (
 				9D51B7972D97764B001291C2 /* Views */,
 				9D51B7A22D978374001291C2 /* Dao */,
-				9D51B7A42D97837B001291C2 /* resources */,
+				9D51B7A42D97837B001291C2 /* Resources */,
 				9D51B7AE2D9786A7001291C2 /* ViewModels */,
 				9D51B7AF2D978718001291C2 /* Utils */,
 			);

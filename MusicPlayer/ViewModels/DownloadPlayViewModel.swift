@@ -6,14 +6,13 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
     @Published var downloadedItems: [String] = []          // 下载完成后追加
     @Published var player: AVPlayer?                       // 播放器实例
     @Published var musicNames: [String] = []
-    var DB: DatabaseManager
+    
     override init() {
-        DB = DatabaseManager()
-        musicNames = DB.getMusicsName(tableName: "Musics")
-        print(DB.listTables())
-        var names = DB.getMusicsName(tableName: "Musics")
+        var Musics = MusicsDaoGenrator().getMusicsDao()
+        musicNames = Musics.getMusicsName()
+        super.init()
         
-        for i in names {
+        for i in musicNames {
             print(i) // 分隔每个字典的输出
         }
         

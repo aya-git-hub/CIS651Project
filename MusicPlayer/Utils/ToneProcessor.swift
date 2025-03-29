@@ -24,7 +24,7 @@ class ToneProcessor {
     var audioPlayer: AVAudioPlayer?
     var DB:DatabaseManager = DatabaseManager()
     
-    // 依次播放录制的音阶（简单延时播放）
+    // play Notes
     
     func playSound(note: String) {
         if let url = Bundle.main.url(forResource: "note\(note)", withExtension: "wav") {

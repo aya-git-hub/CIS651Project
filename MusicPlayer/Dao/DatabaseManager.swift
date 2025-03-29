@@ -1,11 +1,26 @@
 import Foundation
 import SQLite3
 
+//Singleton
 class DatabaseManager {
     var db: OpaquePointer?
-    
-    init() {
+    static var dbm: DatabaseManager? = nil
+    private init() {
         self.db = openDatabase()
+        print("DatabaseManager: I was instantiated.")
+    }
+    
+    // To get manager's object
+    public static func getDBM() -> DatabaseManager {
+    // Make sure only one manager exists
+        if dbm != nil{
+            print("DatabaseManager has been instantiated already.")
+            return dbm!
+        }
+        else{
+            dbm = DatabaseManager()
+            return dbm!
+        }
     }
     
     // MARK: - Open Database Connection
@@ -17,7 +32,6 @@ class DatabaseManager {
          appropriateFor: nil,
          create: false)
          .appendingPathComponent("TheUserDatabase.sqlite")
-         
          if sqlite3_open(fileURL.path, &db) == SQLITE_OK {
          print("Successfully connected to database: \(fileURL.path)")
          return db
@@ -58,9 +72,8 @@ class DatabaseManager {
             }
         } else {
             let errorMsg = String(cString: sqlite3_errmsg(db))
-            print("查询表失败: \(errorMsg)")
+            print("Failed to list tables: \(errorMsg)")
         }
-        
         sqlite3_finalize(statement)
         return tables
     }
@@ -93,19 +106,25 @@ class DatabaseManager {
     ///   - tableName: The table name
     ///   - data: A dictionary where the key is the column name and the value is the value to insert
     func insertRecord(tableName: String, data: [String: Any]) {
+        // 使用命名参数构造 SQL 语句，例如 "INSERT INTO tableName (col1, col2) VALUES (:col1, :col2);"
         let columns = data.keys.joined(separator: ", ")
-        let placeholders = data.keys.map { _ in "?" }.joined(separator: ", ")
+        let placeholders = data.keys.map { ":\($0)" }.joined(separator: ", ")
         let insertSQL = "INSERT INTO \(tableName) (\(columns)) VALUES (\(placeholders));"
         print("Insert record SQL: \(insertSQL)")
         
-        var statement: OpaquePointer? = nil
+        var statement: OpaquePointer?
         if sqlite3_prepare_v2(db, insertSQL, -1, &statement, nil) == SQLITE_OK {
-            // To ensure consistent order, sort keys.
-            // You can choose a different approach to ensure that the order of the placeholders matches the binding order.
-            let sortedKeys = data.keys.sorted()
-            for (index, key) in sortedKeys.enumerated() {
-                let value = data[key]
-                bind(value: value, to: statement, at: Int32(index + 1))
+            // 遍历 data 中的每个键值对，根据键名绑定对应的值
+            for (key, value) in data {
+                let parameterName = ":\(key)"
+                // 获取命名参数对应的位置索引
+                let index = sqlite3_bind_parameter_index(statement, parameterName)
+                // 如果 index 为 0，表示未找到对应的参数（通常不会发生）
+                if index > 0 {
+                    bind(value: value, to: statement, at: index)
+                } else {
+                    print("未找到参数 \(parameterName) 对应的位置")
+                }
             }
             if sqlite3_step(statement) == SQLITE_DONE {
                 print("Record inserted successfully")

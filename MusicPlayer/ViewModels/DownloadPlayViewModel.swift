@@ -6,18 +6,30 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
     @Published var downloadedItems: [String] = []          // 下载完成后追加
     @Published var player: AVPlayer?                       // 播放器实例
     @Published var musicNames: [String] = []
+    @Published var Musics:MusicsDao
     
     override init() {
-        var Musics = MusicsDaoGenrator().getMusicsDao()
-        musicNames = Musics.getMusicsName()
-        super.init()
         
+        Musics = MusicsDaoGenrator().getMusicsDao()
+        super.init()
+        musicNames = Musics.getMusicsName()
         for i in musicNames {
             print(i) // 分隔每个字典的输出
         }
-        
     }
     
+    func insertMusicToTable( _ name:String, _ author:String)  {
+        Musics.insertMusics( name, author)
+    }
+    
+    func getaMusicsList() -> [String] {
+        musicNames = Musics.getMusicsName()
+        for i in musicNames {
+            print(i) //
+        }
+        return musicNames
+        
+    }
     
     
     func downloadFile() {

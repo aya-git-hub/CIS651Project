@@ -10,4 +10,5 @@ import Foundation
 protocol TablesDao{
     var tableName:String { get set }
     var DB:DatabaseManager { get set}
+    func copyDatabaseBack()
 }

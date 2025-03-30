@@ -14,7 +14,6 @@ class musics{
 }
 
 
-
 //Use Factory pattern
 class MusicsDao: TablesDao{
     var DB: DatabaseManager
@@ -51,7 +50,7 @@ class MusicsDao: TablesDao{
             let destinationURL = URL(fileURLWithPath: destinationPath)
             
             do {
-                // 如果目标文件已存在，则先删除
+                // If the file exists, delete
                 if fileManager.fileExists(atPath: destinationURL.path) {
                     try fileManager.removeItem(at: destinationURL)
                 }

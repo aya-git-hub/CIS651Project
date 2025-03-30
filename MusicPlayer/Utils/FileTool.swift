@@ -34,7 +34,7 @@ class FileTool{
         }
     }
     
-    static func getFilesName() -> [String] {
+    static func getBoxFilesName() -> [String] {
         let fileManager = FileManager.default
         guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
             return []
@@ -49,14 +49,40 @@ class FileTool{
         }
     }
     
-    static func getFile(_ file: String) -> URL {
+    static func getBoxFileURL(_ file: String) -> URL {
         let fileManager = FileManager.default
-        // 获取 Documents 目录的 URL
+        // Get Sandbox Documents's URL
         guard let documentsURL = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else {
             fatalError("Cannot access documents directory")
         }
         let fileURL = documentsURL.appendingPathComponent(file)
         return fileURL
+    }
+    
+    static func getBundleFilesName() -> [String] {
+        let fileManager = FileManager.default
+        guard let resourcePath = Bundle.main.resourcePath else {
+            return []
+        }
+        do {
+            // 获取 resourcePath 下所有文件名
+            let fileNames = try fileManager.contentsOfDirectory(atPath: resourcePath)
+            return fileNames
+        } catch {
+            print("读取 Bundle 资源失败: \(error.localizedDescription)")
+            return []
+        }
+    }
+    
+    static func getBundleFileURL(_ fileName: String) -> URL? {
+        // 拆分文件名与扩展名
+        let components = fileName.split(separator: ".")
+        guard !components.isEmpty else { return nil }
+        
+        let name = String(components.first!)
+        // If has extension
+        let ext = components.count > 1 ? String(components.last!) : nil
+        return Bundle.main.url(forResource: name, withExtension: ext)
     }
     
 }

@@ -32,6 +32,13 @@ struct MainView: View {
                         .background(Color.gray.opacity(0.3))
                         .cornerRadius(10)
                 }
+                NavigationLink(destination:  LibraryView()) {
+                    Text("Go to PlayMusic View")
+                        .font(.title2)
+                        .padding()
+                        .background(Color.gray.opacity(0.3))
+                        .cornerRadius(10)
+                }
                 
                 
                 

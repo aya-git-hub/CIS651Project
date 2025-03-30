@@ -11,6 +11,7 @@ struct RecordView: View {
     let toneProcessor = ToneProcessor();
     
     @StateObject var recordModel = RecordViewModel()
+    
 
     
     // 按钮：点击播放对应音阶，同时录制状态下保存音阶到数组中

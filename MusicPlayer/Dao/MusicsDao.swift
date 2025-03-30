@@ -13,12 +13,7 @@ class musics{
     
 }
 
-class MusicsDaoGenrator{
-    public func getMusicsDao() -> MusicsDao {
-        var musicTable = MusicsDao("Musics")
-        return musicTable
-    }
-}
+
 
 //Use Factory pattern
 class MusicsDao: TablesDao{

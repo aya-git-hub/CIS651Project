@@ -10,7 +10,7 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
     
     override init() {
         
-        Musics = MusicsDaoGenrator().getMusicsDao()
+        Musics = DaoGenerator().getMusicsDao()
         super.init()
         musicNames = Musics.getMusicsName()
         for i in musicNames {

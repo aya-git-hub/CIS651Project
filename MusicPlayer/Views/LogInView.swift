@@ -40,7 +40,7 @@ struct LogInView: View {
                                 .foregroundColor(Color("Color1"))
                                 .padding(.top, -200)
                             
-                            Text("Welcome \nBack")
+                            Text("Welcome")
                                 .foregroundColor(.white)
                                 .font(.system(size: 35))
                                 .fontWeight(.bold)
@@ -89,6 +89,7 @@ struct LogInView: View {
                                         Text("Forgot Password?")
                                             .fontWeight(.medium)
                                     })
+                             
                                 }
                                 
                                 Button(action: {

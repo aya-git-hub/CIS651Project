@@ -13,6 +13,26 @@ struct MainView: View {
             VStack {
                 Spacer() // 让按钮固定在底部
                 
+                // 添加自定义专辑封面图片
+                Image("album_cover") // 这里应该是你放在Assets中的图片名称
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 400, height: 400)
+                    .cornerRadius(10)
+                    .shadow(radius: 5)
+                    .padding()
+                
+//                // 音乐播放控制按钮
+//                Image(systemName: "play.circle.fill")
+//                    .resizable()
+//                    .scaledToFit()
+//                    .frame(width: 80, height: 80)
+//                    .foregroundColor(.blue)
+//                    .padding()
+
+                               
+                Spacer()
+                
                 HStack(spacing: 50) {
                     NavigationLink(destination: ToneView()) {
                         VStack {

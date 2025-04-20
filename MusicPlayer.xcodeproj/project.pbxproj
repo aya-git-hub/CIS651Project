@@ -26,6 +26,9 @@
 		9D4664002DB563A6001B829F /* AudioPlayerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4663F72DB563A6001B829F /* AudioPlayerViewModel.swift */; };
 		9D4664012DB563A6001B829F /* PlayMusicView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4663FA2DB563A6001B829F /* PlayMusicView.swift */; };
 		9D46640F2DB56555001B829F /* XCLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D46640E2DB56555001B829F /* XCLog.swift */; };
+		9D4664122DB57797001B829F /* DeepSwiftSeek in Frameworks */ = {isa = PBXBuildFile; productRef = 9D4664112DB57797001B829F /* DeepSwiftSeek */; };
+		9D46641B2DB57F4A001B829F /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 9D46641A2DB57F4A001B829F /* LLM */; };
+		9D46641D2DB57F9B001B829F /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 9D46641C2DB57F9B001B829F /* LLM */; };
 		9D51B77C2D973789001291C2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B7722D973789001291C2 /* README.md */; };
 		9D51B7942D9737CD001291C2 /* TheUserDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B7532D973789001291C2 /* TheUserDatabase.sqlite */; };
 		9D51B7B32D978B07001291C2 /* AppEnter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D51B75D2D973789001291C2 /* AppEnter.swift */; };
@@ -60,9 +63,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9D4664122DB57797001B829F /* DeepSwiftSeek in Frameworks */,
 				9D4663D52DB53EA5001B829F /* FirebaseDatabase in Frameworks */,
 				9D4663EE2DB5604E001B829F /* FirebaseAuth in Frameworks */,
 				9D4663EC2DB56033001B829F /* FirebaseAuthCombine-Community in Frameworks */,
+				9D46641D2DB57F9B001B829F /* LLM in Frameworks */,
 				9D4663DD2DB53EA5001B829F /* FirebaseStorageCombine-Community in Frameworks */,
 				9D4663D72DB53EA5001B829F /* FirebaseFirestore in Frameworks */,
 				9D4663D32DB53EA5001B829F /* FirebaseCore in Frameworks */,
@@ -71,6 +76,7 @@
 				9D4663D12DB53EA5001B829F /* FirebaseAnalytics in Frameworks */,
 				9D4663DB2DB53EA5001B829F /* FirebaseStorage in Frameworks */,
 				9D4663EA2DB56033001B829F /* FirebaseAuth in Frameworks */,
+				9D46641B2DB57F4A001B829F /* LLM in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,6 +203,8 @@
 			mainGroup = 63C019BC1C58DF76001F4187;
 			packageReferences = (
 				9D4663CF2DB53EA5001B829F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				9D4664102DB57797001B829F /* XCRemoteSwiftPackageReference "DeepSwiftSeek" */,
+				9D4664192DB57F4A001B829F /* XCRemoteSwiftPackageReference "LLM.swift" */,
 			);
 			productRefGroup = 63C019C61C58DF76001F4187 /* Products */;
 			projectDirPath = "";
@@ -418,6 +426,22 @@
 				minimumVersion = 11.11.0;
 			};
 		};
+		9D4664102DB57797001B829F /* XCRemoteSwiftPackageReference "DeepSwiftSeek" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tornikegomareli/DeepSwiftSeek.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.0.2;
+			};
+		};
+		9D4664192DB57F4A001B829F /* XCRemoteSwiftPackageReference "LLM.swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/eastriverlee/LLM.swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.3;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -475,6 +499,21 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9D4663CF2DB53EA5001B829F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseAuthCombine-Community";
+		};
+		9D4664112DB57797001B829F /* DeepSwiftSeek */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D4664102DB57797001B829F /* XCRemoteSwiftPackageReference "DeepSwiftSeek" */;
+			productName = DeepSwiftSeek;
+		};
+		9D46641A2DB57F4A001B829F /* LLM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D4664192DB57F4A001B829F /* XCRemoteSwiftPackageReference "LLM.swift" */;
+			productName = LLM;
+		};
+		9D46641C2DB57F9B001B829F /* LLM */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D4664192DB57F4A001B829F /* XCRemoteSwiftPackageReference "LLM.swift" */;
+			productName = LLM;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

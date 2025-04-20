@@ -1,5 +1,5 @@
 {
-  "originHash" : "c63c63846d9c539229e96de38d6af51417e28c0ee9a0bc48bd0f0f19d923c329",
+  "originHash" : "8dedf2af4bb3710516c09dd9d74418808868d7864a7d7cd11b7fe9112c9a68db",
   "pins" : [
     {
       "identity" : "abseil-cpp-binary",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "61b85103a1aeed8218f17c794687781505fbbef5",
         "version" : "11.2.0"
+      }
+    },
+    {
+      "identity" : "deepswiftseek",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/tornikegomareli/DeepSwiftSeek.git",
+      "state" : {
+        "revision" : "663868ef805d5e4fff8ee2844cd4784a921c5d33",
+        "version" : "0.0.2"
       }
     },
     {
@@ -89,6 +98,15 @@
       "state" : {
         "revision" : "a0bc79961d7be727d258d33d5a6b2f1023270ba1",
         "version" : "1.22.5"
+      }
+    },
+    {
+      "identity" : "llm.swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/eastriverlee/LLM.swift.git",
+      "state" : {
+        "revision" : "e62b90f067ae89d2361c2dccae4ffa448a7b1d54",
+        "version" : "1.7.1"
       }
     },
     {

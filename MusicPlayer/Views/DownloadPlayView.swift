@@ -1,5 +1,6 @@
 import SwiftUI
 import AVKit
+import LLM
 
 struct DownloadPlayView: View {
     @StateObject private var viewModel = DownloadPlayViewModel()
@@ -8,6 +9,7 @@ struct DownloadPlayView: View {
     @State private var selectedMusicForDelete: String? = nil
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
+    @State private var showChatView: Bool = false
     
     // 根据搜索文本过滤音乐名称
     var filteredMusicNames: [String] {
@@ -22,63 +24,83 @@ struct DownloadPlayView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
-                // 搜索栏
-                SearchBar(text: $searchText)
-                    .padding(.horizontal)
-                    .padding(.top, 8)
-                
-                // 可下载的音乐列表
-                List {
-                    Section(header: Text("可下载的音乐")) {
-                        ForEach(filteredMusicNames, id: \.self) { music in
-                            MusicRow(
-                                musicName: music,
-                                isDownloaded: viewModel.downloadedItems.contains(music),
-                                isPlaying: viewModel.currentPlayingMusic == music,
-                                downloadAction: {
-                                    if !viewModel.downloadedItems.contains(music) {
-                                        viewModel.downloadFile(for: music)
-                                    }
-                                },
-                                playAction: {
-                                    playMusic(music)
-                                }
-                            )
-                        }
-                    }
-                }
-                .listStyle(PlainListStyle())
-                
-                // 已下载的音乐列表
-                if !viewModel.downloadedItems.isEmpty {
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("已下载的音乐")
-                            .font(.headline)
-                            .padding(.horizontal)
-                            .padding(.top, 8)
-                        
-                        List {
-                            ForEach(viewModel.downloadedItems, id: \.self) { music in
-                                DownloadedMusicRow(
+            ZStack {
+                VStack(spacing: 0) {
+                    // 搜索栏
+                    SearchBar(text: $searchText)
+                        .padding(.horizontal)
+                        .padding(.top, 8)
+                    
+                    // 可下载的音乐列表
+                    List {
+                        Section(header: Text("可下载的音乐")) {
+                            ForEach(filteredMusicNames, id: \.self) { music in
+                                MusicRow(
                                     musicName: music,
+                                    isDownloaded: viewModel.downloadedItems.contains(music),
                                     isPlaying: viewModel.currentPlayingMusic == music,
-                                    deleteAction: {
-                                        viewModel.deleteDownloadedMusic(music)
+                                    downloadAction: {
+                                        if !viewModel.downloadedItems.contains(music) {
+                                            viewModel.downloadFile(for: music)
+                                        }
+                                    },
+                                    playAction: {
+                                        playMusic(music)
                                     }
                                 )
                             }
                         }
-                        .listStyle(PlainListStyle())
                     }
-                    .frame(height: 200)
+                    .listStyle(PlainListStyle())
+                    
+                    // 已下载的音乐列表
+                    if !viewModel.downloadedItems.isEmpty {
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("已下载的音乐")
+                                .font(.headline)
+                                .padding(.horizontal)
+                                .padding(.top, 8)
+                            
+                            List {
+                                ForEach(viewModel.downloadedItems, id: \.self) { music in
+                                    DownloadedMusicRow(
+                                        musicName: music,
+                                        isPlaying: viewModel.currentPlayingMusic == music,
+                                        deleteAction: {
+                                            viewModel.deleteDownloadedMusic(music)
+                                        }
+                                    )
+                                }
+                            }
+                            .listStyle(PlainListStyle())
+                        }
+                        .frame(height: 200)
+                    }
+                    
+                    // 播放器控制区域
+                    if let player = viewModel.player {
+                        PlayerControlView(player: player)
+                            .padding()
+                            .background(Color(UIColor.systemGray6))
+                    }
                 }
                 
-                // 播放器控制区域
-                if let player = viewModel.player {
-                    PlayerControlView(player: player)
-                        .padding()
-                        .background(Color(UIColor.systemGray6))
+                // 悬浮聊天按钮
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            showChatView = true
+                        }) {
+                            Image(systemName: "message.circle.fill")
+                                .font(.system(size: 50))
+                                .foregroundColor(.blue)
+                                .shadow(radius: 3)
+                        }
+                        .padding(.trailing, 20)
+                        .padding(.bottom, 20)
+                    }
                 }
             }
             .navigationTitle("音乐下载")
@@ -89,6 +111,9 @@ struct DownloadPlayView: View {
                     dismissButton: .default(Text("确定"))
                 )
             }
+        }
+        .sheet(isPresented: $showChatView) {
+            HuggingFaceChatView()
         }
     }
     
@@ -218,7 +243,7 @@ struct DownloadedMusicRow: View {
                 Image(systemName: "trash")
                     .foregroundColor(.red)
             }
-            .buttonStyle(PlainButtonStyle()) // 添加这一行
+            .buttonStyle(PlainButtonStyle())
         }
         .padding(.vertical, 8)
     }
@@ -312,5 +337,27 @@ struct PlayerControlView: View {
 struct DownloadPlayView_Previews: PreviewProvider {
     static var previews: some View {
         DownloadPlayView()
+    }
+}
+struct MessageBubble: View {
+    let message: ChatMessage
+    
+    var body: some View {
+        HStack {
+            if message.isUser {
+                Spacer()
+            }
+            
+            Text(message.content)
+                .padding()
+                .background(message.isUser ? Color.blue : Color.gray.opacity(0.2))
+                .foregroundColor(message.isUser ? .white : .primary)
+                .cornerRadius(15)
+                .textSelection(.enabled)
+            
+            if !message.isUser {
+                Spacer()
+            }
+        }
     }
 }

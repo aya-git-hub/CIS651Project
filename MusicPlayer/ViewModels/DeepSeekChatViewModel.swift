@@ -13,7 +13,7 @@ class HuggingFaceChatViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var errorMessage: String?
 
-    //private let apiKey = "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"
+    
     private let modelEndpoint = "https://api-inference.huggingface.co/models/distilgpt2"
     private let maxRetries = 3
     private let retryDelay: UInt64 = 2_000_000_000 // 2秒

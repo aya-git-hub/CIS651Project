@@ -74,15 +74,20 @@ class FileTool{
         }
     }
     
-    static func getBundleFileURL(_ fileName: String) -> URL? {
+    static func getBundleFileURL(_ fileName: String) -> URL {
         // 拆分文件名与扩展名
         let components = fileName.split(separator: ".")
-        guard !components.isEmpty else { return nil }
-        
+        guard !components.isEmpty else {
+            fatalError("无效的文件名")
+        }
         let name = String(components.first!)
-        // If has extension
         let ext = components.count > 1 ? String(components.last!) : nil
-        return Bundle.main.url(forResource: name, withExtension: ext)
+        guard let url = Bundle.main.url(forResource: name, withExtension: ext)
+        else {
+            fatalError("在 Bundle 中未找到文件：\(fileName)")
+        }
+        print("找到了")
+        return url
     }
     
 }

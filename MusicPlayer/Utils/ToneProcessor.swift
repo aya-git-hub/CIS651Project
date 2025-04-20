@@ -22,7 +22,7 @@ class ToneProcessor {
         (7, "ti")
     )
     var audioPlayer: AVAudioPlayer?
-    var DB:DatabaseManager = DatabaseManager.getDBM()
+    //var DB:DatabaseManager = DatabaseManager.getDBM()
     
     // play Notes
     

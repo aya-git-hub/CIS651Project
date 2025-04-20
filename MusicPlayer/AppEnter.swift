@@ -1,31 +1,17 @@
-//
-//  AppEnter.swift
-//  MusicPlayer
-//
-//  Created by yuao ai on 2/23/25.
-//  Copyright © 2025 London App Brewery. All rights reserved.
-//
-
 import SwiftUI
-import AVKit
+import Firebase
+
 @main
-struct MusicApp: App {
-    init(){
-        for fileURL in FileTool.getBundleFilesName(){
-                    print(fileURL)
-                }
-        if let url = FileTool.getBundleFileURL("story.mp3") {
-            let player = AVPlayer(url: url)
-            player.play()
-        } else {
-            print("Can not find file")
-        }
-        FileTool.copyDatabaseIfNeeded()
+struct LoginApp: App {
+    init() {
+        FirebaseApp.configure() // 初始化 Firebase
+        print("FirebaseApp successfully configured!")
     }
+
     var body: some Scene {
         WindowGroup {
-            MainView()
+            LogInView()
+                .environmentObject(AuthViewModel()) // ViewModel 注入
         }
     }
 }
-

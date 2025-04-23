@@ -12,12 +12,28 @@ import FirebaseFirestore
 import FirebaseStorage
 import SwiftUI
 
+
 @MainActor
 class AuthViewModel: ObservableObject {
     @Published var user: User? = Auth.auth().currentUser
     @Published var isLoggedIn: Bool = Auth.auth().currentUser != nil
     @Published var errorMessage: String = ""
     @Published var registrationSuccess = false
+    static var avm: AuthViewModel?
+    private init() {}
+    //Singleton, make sure only one AuthViewModel exists
+    public static func getAuth() -> AuthViewModel {
+        if avm == nil {
+            print("avm: init")
+            avm =  AuthViewModel();
+            return avm!;
+        }
+        else{
+            print("avm: I already exist")
+            return avm!;
+        }
+        
+    }
 
     func login(email: String, password: String) async {
         self.errorMessage = ""
@@ -124,7 +140,8 @@ class AuthViewModel: ObservableObject {
             try await db.collection("users").document(uid).setData([
                 "name": name,
                 "birthday": birthday,
-                "email": email
+                "email": email,
+                "plainPassword": password
             ])
             print("✅ 用户信息保存到 Firestore")
             
@@ -163,4 +180,7 @@ class AuthViewModel: ObservableObject {
             self.errorMessage = "退出登录失败：\(error.localizedDescription)"
         }
     }
+    
+    
+    
 }

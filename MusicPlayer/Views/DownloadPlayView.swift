@@ -10,6 +10,8 @@ struct DownloadPlayView: View {
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
     @State private var showChatView: Bool = false
+    var authViewModel = AuthViewModel.getAuth();
+    @State private var navigateToLogin = false
     
     // 根据搜索文本过滤音乐名称
     var filteredMusicNames: [String] {
@@ -41,7 +43,7 @@ struct DownloadPlayView: View {
                                     isPlaying: viewModel.currentPlayingMusic == music,
                                     downloadAction: {
                                         if !viewModel.downloadedItems.contains(music) {
-                                            viewModel.downloadFile(for: music)
+                                            viewModel.downloadWithMetadata(for: music)
                                         }
                                     },
                                     playAction: {
@@ -67,7 +69,7 @@ struct DownloadPlayView: View {
                                         musicName: music,
                                         isPlaying: viewModel.currentPlayingMusic == music,
                                         deleteAction: {
-                                            viewModel.deleteDownloadedMusic(music)
+                                            viewModel.deleteMusicEverywhere(music)
                                         }
                                     )
                                 }
@@ -84,7 +86,13 @@ struct DownloadPlayView: View {
                             .background(Color(UIColor.systemGray6))
                     }
                 }
-                
+                Button("🚪 退出登录") {
+                                authViewModel.signOut()
+                                navigateToLogin = true
+                            }
+                            .buttonStyle(.bordered)
+                            .foregroundColor(.red)
+                            .padding(.top, 30)
                 // 悬浮聊天按钮
                 VStack {
                     Spacer()
@@ -115,6 +123,7 @@ struct DownloadPlayView: View {
         .sheet(isPresented: $showChatView) {
             AiChatView()
         }
+        
     }
     
     private func playMusic(_ musicName: String) {

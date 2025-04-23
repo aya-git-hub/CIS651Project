@@ -30,7 +30,6 @@
 		9D46641B2DB57F4A001B829F /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 9D46641A2DB57F4A001B829F /* LLM */; };
 		9D46641D2DB57F9B001B829F /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 9D46641C2DB57F9B001B829F /* LLM */; };
 		9D51B77C2D973789001291C2 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B7722D973789001291C2 /* README.md */; };
-		9D51B7942D9737CD001291C2 /* TheUserDatabase.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = 9D51B7532D973789001291C2 /* TheUserDatabase.sqlite */; };
 		9D51B7B32D978B07001291C2 /* AppEnter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D51B75D2D973789001291C2 /* AppEnter.swift */; };
 /* End PBXBuildFile section */
 
@@ -53,11 +52,11 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		9D4664082DB563ED001B829F /* Player */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Player; sourceTree = "<group>"; };
 		9D51B7972D97764B001291C2 /* Views */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Views; sourceTree = "<group>"; };
 		9D51B7A42D97837B001291C2 /* Resources */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Resources; sourceTree = "<group>"; };
 		9D51B7AE2D9786A7001291C2 /* ViewModels */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModels; sourceTree = "<group>"; };
 		9D51B7AF2D978718001291C2 /* Utils */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Utils; sourceTree = "<group>"; };
+		9DD2DE982DB9A2F600998A4C /* Models */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Models; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +87,7 @@
 		63C019BC1C58DF76001F4187 = {
 			isa = PBXGroup;
 			children = (
+				9DD2DE982DB9A2F600998A4C /* Models */,
 				9D8F14652DB81F7F00AEBB34 /* Config.xcconfig */,
 				9D4663FB2DB563A6001B829F /* PlayMuisc */,
 				9D4663F12DB560E4001B829F /* GoogleService-Info.plist */,
@@ -142,11 +142,10 @@
 				9D51B7AE2D9786A7001291C2 /* ViewModels */,
 				9D51B7972D97764B001291C2 /* Views */,
 				9D51B75D2D973789001291C2 /* AppEnter.swift */,
+				9D01721D2D6BBF890061B485 /* MainView.swift */,
 				9D51B75E2D973789001291C2 /* Assets.xcassets */,
 				9D51B7602D973789001291C2 /* Info.plist */,
 				9D51B7A42D97837B001291C2 /* Resources */,
-				9D01721D2D6BBF890061B485 /* MainView.swift */,
-				9D4664082DB563ED001B829F /* Player */,
 			);
 			path = MusicPlayer;
 			sourceTree = "<group>";
@@ -167,11 +166,11 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				9D4664082DB563ED001B829F /* Player */,
 				9D51B7972D97764B001291C2 /* Views */,
 				9D51B7A42D97837B001291C2 /* Resources */,
 				9D51B7AE2D9786A7001291C2 /* ViewModels */,
 				9D51B7AF2D978718001291C2 /* Utils */,
+				9DD2DE982DB9A2F600998A4C /* Models */,
 			);
 			name = MusicPlayer;
 			productName = Xylophone;
@@ -226,7 +225,6 @@
 			files = (
 				9D4663F32DB5614F001B829F /* Assets.xcassets in Resources */,
 				9D4663F22DB560E4001B829F /* GoogleService-Info.plist in Resources */,
-				9D51B7942D9737CD001291C2 /* TheUserDatabase.sqlite in Resources */,
 				9D51B77C2D973789001291C2 /* README.md in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

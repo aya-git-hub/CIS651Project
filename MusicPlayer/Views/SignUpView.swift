@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @EnvironmentObject var authViewModel: AuthViewModel
+    var authViewModel = AuthViewModel.getAuth()
     @Environment(\.dismiss) var dismiss
 
     @State private var name = ""
@@ -55,12 +55,7 @@ struct SignUpView: View {
                                 tOpacity: 1.0,
                                 value: $name)
 
-                            CustomTextField(
-                                placeholder: "Birthday(MM-dd-yyyy)",
-                                imageName: "calendar",
-                                bColor: Color("textColor2"),
-                                tOpacity: 1.0,
-                                value: $birthday)
+                            BirthdayInputField(birthdayText: $birthday)
 
                             CustomTextField(
                                 placeholder: "Email",

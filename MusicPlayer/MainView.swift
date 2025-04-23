@@ -53,6 +53,7 @@ struct MainView: View {
                         .padding()
                     }
                     
+                    
                     NavigationLink(destination: RecordView()) {
                         VStack {
                             Image(systemName: "mic.fill")

@@ -6,7 +6,7 @@ class ChatViewModelSingleton: ObservableObject {
     @Published var chatViewModel = DeepSeekViewModel()
     private init() {} // private constructor keeps singleton
 }
-struct HuggingFaceChatView: View {
+struct AiChatView: View {
     @StateObject private var viewModelManager = ChatViewModelSingleton.shared
         @ObservedObject private var chatViewModel: DeepSeekViewModel
         @Environment(\.dismiss) private var dismiss
@@ -27,7 +27,7 @@ struct HuggingFaceChatView: View {
                     }
                     
                     Spacer()
-                    Text("DeepSeek 助手")
+                    Text("Your Ai Assistant")
                         .font(.headline)
                     Spacer()
                 }
@@ -44,7 +44,7 @@ struct HuggingFaceChatView: View {
                             HStack {
                                 ProgressView()
                                     .padding()
-                                Text("思考中...")
+                                Text("Thinking...")
                                     .foregroundColor(.gray)
                             }
                         }
@@ -62,7 +62,7 @@ struct HuggingFaceChatView: View {
                 
                 // 输入区域
                 HStack {
-                    TextField("输入消息...", text: $messageText)
+                    TextField("Input your message...", text: $messageText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .disabled(chatViewModel.isLoading)
                     

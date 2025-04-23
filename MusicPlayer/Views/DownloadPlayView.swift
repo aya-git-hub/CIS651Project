@@ -113,7 +113,7 @@ struct DownloadPlayView: View {
             }
         }
         .sheet(isPresented: $showChatView) {
-            HuggingFaceChatView()
+            AiChatView()
         }
     }
     

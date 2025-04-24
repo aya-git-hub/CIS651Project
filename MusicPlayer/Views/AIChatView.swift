@@ -27,7 +27,7 @@ struct AiChatView: View {
                     }
                     
                     Spacer()
-                    Text("Your Ai Assistant")
+                    Text("Your AI Assistant")
                         .font(.headline)
                     Spacer()
                 }

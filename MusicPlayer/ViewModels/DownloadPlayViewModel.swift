@@ -5,7 +5,7 @@ import FirebaseCore
 import Firebase
 import FirebaseAuth
 
-// MARK: - ViewModel
+// Singleton
 class DownloadPlayViewModel: NSObject, ObservableObject {
     @Published var downloadProgress: Double = 0
     @Published var downloadedItems: [String] = []
@@ -14,9 +14,22 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
     @Published var errorMessage: String?
     @Published var currentPlayingMusic: String? = nil
     
+    static var dpvm: DownloadPlayViewModel?
+    static func getDownloadPlay() -> DownloadPlayViewModel {
+        if dpvm == nil {
+            print("dpvm: Initialized")
+            dpvm = DownloadPlayViewModel()
+            return dpvm!
+        }
+        else {
+            print("dpvm: I already exist.")
+            return dpvm!
+        }
+    }
+    
     private let storage = Storage.storage()
     
-    override init() {
+    override private init() {
         super.init()
         loadDownloadedMusic()
         fetchAvailableMusic()

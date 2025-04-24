@@ -10,9 +10,13 @@ import Firebase
 
 @main
 struct LoginApp: App {
+    /*
+     @StateObject only makes sure a view owns the same viewmodel, hence, we need singleton to make sure each view holds the same instance when some views have the same viewmodel.
+     */
     @StateObject var authViewModel = AuthViewModel.getAuth()
-    @StateObject var downloadVM = DownloadPlayViewModel() // ✅ 新增
-
+    @StateObject var downloadVM = DownloadPlayViewModel.getDownloadPlay()
+    
+    
     init() {
         FirebaseApp.configure()
     }

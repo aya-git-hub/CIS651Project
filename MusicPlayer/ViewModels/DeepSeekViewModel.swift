@@ -10,7 +10,7 @@ class DeepSeekViewModel: ObservableObject {
     public func getViewModel() -> DeepSeekViewModel {
         if chatViewModel == nil {
             chatViewModel = DeepSeekViewModel()
-            print("DeepSeekViewModel: I was init")
+            print("DeepSeekViewModel: Initialized")
             return chatViewModel!;
         }
         else{

@@ -24,12 +24,12 @@ class AuthViewModel: ObservableObject {
     //Singleton, make sure only one AuthViewModel exists
     public static func getAuth() -> AuthViewModel {
         if avm == nil {
-            print("avm: init")
+            print("AuthViewModel: Initialized")
             avm =  AuthViewModel();
             return avm!;
         }
         else{
-            print("avm: I already exist")
+            print("AuthViewModel: I already exist")
             return avm!;
         }
         

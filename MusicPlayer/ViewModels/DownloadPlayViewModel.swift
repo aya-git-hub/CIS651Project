@@ -40,21 +40,35 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
         fetchAvailableMusic()
     }
     
-    private func loadDownloadedMusic() {
-        let fileManager = FileManager.default
-        guard let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
-        
-        do {
-            let files = try fileManager.contentsOfDirectory(at: documentsPath, includingPropertiesForKeys: nil)
-            DispatchQueue.main.async {
-                self.downloadedItems = files.map { $0.lastPathComponent }
+    public func loadDownloadedMusic() {
+            // 1) 没登录就清空并退出
+            guard let email = Auth.auth().currentUser?.email else {
+                self.downloadedItems = []
+                return
             }
-        } catch {
-            DispatchQueue.main.async {
-                self.errorMessage = "加载已下载音乐失败: \(error.localizedDescription)"
-            }
+            
+            // 2) 查询 Firestore
+            Firestore.firestore()
+                .collection("user_musics")             // 你的记录集合
+                .whereField("userEmail", isEqualTo: email)
+                .getDocuments { [weak self] snapshot, error in
+                    guard let self = self else { return }
+                    
+                    if let error = error {
+                        DispatchQueue.main.async {
+                            self.errorMessage = "加载已下载音乐失败: \(error.localizedDescription)"
+                        }
+                        return
+                    }
+                    
+                    // 3) 提取 musicName 字段并更新 UI
+                    let names = snapshot?.documents.compactMap { $0["musicName"] as? String } ?? []
+                    DispatchQueue.main.async {
+                        self.downloadedItems = names
+                        print("I loaded \(names)")
+                    }
+                }
         }
-    }
     
     private func fetchAvailableMusic() {
         let storageRef = storage.reference().child("music")
@@ -237,7 +251,7 @@ extension DownloadPlayViewModel: URLSessionDownloadDelegate {
             DispatchQueue.main.async {
                 self.downloadedItems.append(fileName)
                 self.downloadProgress = 1.0
-                self.player = AVPlayer(url: destinationURL)
+                //self.player = AVPlayer(url: destinationURL)
             }
 
         } catch {

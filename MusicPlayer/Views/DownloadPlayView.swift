@@ -93,19 +93,7 @@ struct DownloadPlayView: View {
                 }
 
                 // 退出登录按钮（固定左上角）
-                VStack {
-                    HStack {
-                        Button("🚪 退出登录") {
-                            authViewModel.signOut()
-                            navigateToLogin = true
-                        }
-                        .buttonStyle(.bordered)
-                        .foregroundColor(.red)
-                        .padding(.leading)
-                        Spacer()
-                    }
-                    Spacer()
-                }
+                
                 
                 // 悬浮可拖拽聊天按钮
                 DraggableChatButton {
@@ -121,6 +109,14 @@ struct DownloadPlayView: View {
                 )
             }
         }
+        .toolbar {
+                    // 右上角个人资料菜单，注入同一个 authViewModel 实例
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        ProfileMenuView()
+                            .environmentObject(authViewModel)
+                            .offset(y: -4)
+                    }
+                }
         .sheet(isPresented: $showChatView) {
             AiChatView()
         }

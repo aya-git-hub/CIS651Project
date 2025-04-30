@@ -15,12 +15,28 @@ import SwiftUI
 
 @MainActor
 class AuthViewModel: ObservableObject {
-    @Published var user: User? = Auth.auth().currentUser
+    @Published var user: User? = Auth.auth().currentUser {
+        didSet {
+            if user != nil {
+                Task {
+                    await reloadUserProfile()
+                }
+            } else {
+                currentUserProfile = nil
+            }
+        }
+    }
     @Published var isLoggedIn: Bool = Auth.auth().currentUser != nil
     @Published var errorMessage: String = ""
     @Published var registrationSuccess = false
+    @Published var currentUserProfile: UserProfile?
+    
+    
+    
     static var avm: AuthViewModel?
-    private init() {}
+    private init() {
+        Task { await reloadUserProfile() }
+    }
     //Singleton, make sure only one AuthViewModel exists
     public static func getAuth() -> AuthViewModel {
         if avm == nil {
@@ -39,7 +55,7 @@ class AuthViewModel: ObservableObject {
         self.errorMessage = ""
 
         guard !email.isEmpty, !password.isEmpty else {
-            self.errorMessage = "邮箱和密码不能为空"
+            self.errorMessage = "Email and password cannot be empty"
             self.isLoggedIn = false
             return
         }
@@ -49,7 +65,7 @@ class AuthViewModel: ObservableObject {
             self.user = result.user
             self.isLoggedIn = true
             self.errorMessage = ""
-            print("✅ 登录成功：\(result.user.email ?? "")")
+            print("✅ Login successful: \(result.user.email ?? "")")
         } catch {
             self.isLoggedIn = false
 
@@ -57,21 +73,21 @@ class AuthViewModel: ObservableObject {
                let code = AuthErrorCode(rawValue: err.code) {
                 switch code {
                 case .invalidEmail:
-                    self.errorMessage = "邮箱格式不正确"
+                    self.errorMessage = "Invalid email format"
                 case .userNotFound:
-                    self.errorMessage = "该用户不存在"
+                    self.errorMessage = "User not found"
                 case .wrongPassword:
-                    self.errorMessage = "密码不正确"
+                    self.errorMessage = "Wrong password"
                 case .networkError:
-                    self.errorMessage = "网络错误，请检查网络连接"
+                    self.errorMessage = "Network error, please check your network connection"
                 default:
-                    self.errorMessage = "登录失败，请稍后再试"
+                    self.errorMessage = "Login failed, please try again later"
                 }
             } else {
-                self.errorMessage = "登录失败，请稍后再试"
+                self.errorMessage = "Login failed, please try again later"
             }
 
-            print("❌ 登录失败：\(error.localizedDescription)")
+            print("❌ Login failed：\(error.localizedDescription)")
         }
     }
 
@@ -80,7 +96,7 @@ class AuthViewModel: ObservableObject {
     func register(email: String, password: String, confirmPassword: String, name: String, birthday: String) async {
         // 1. 检查是否为空
         guard !email.isEmpty, !password.isEmpty, !confirmPassword.isEmpty, !name.isEmpty, !birthday.isEmpty else {
-            self.errorMessage = "所有字段都不能为空"
+            self.errorMessage = "All fields cannot be empty"
             self.registrationSuccess = false
             return
         }
@@ -88,21 +104,21 @@ class AuthViewModel: ObservableObject {
         // 2. 邮箱格式验证
         let emailRegex = #"^\S+@\S+\.\S+$"#
         guard email.range(of: emailRegex, options: .regularExpression) != nil else {
-            self.errorMessage = "请输入有效的邮箱地址"
+            self.errorMessage = "Please enter a valid email address"
             self.registrationSuccess = false
             return
         }
 
         // 3. 密码一致性验证
         guard password == confirmPassword else {
-            self.errorMessage = "两次输入的密码不一致"
+            self.errorMessage = "The passwords you entered do not match"
             self.registrationSuccess = false
             return
         }
 
         // 4. 密码强度
         guard password.count >= 6 else {
-            self.errorMessage = "密码必须至少6个字符长"
+            self.errorMessage = "The password must be at least 6 characters long"
             self.registrationSuccess = false
             return
         }
@@ -111,14 +127,14 @@ class AuthViewModel: ObservableObject {
         let formatter = DateFormatter()
         formatter.dateFormat = "MM-dd-yyyy"
         guard let parsedBirthday = formatter.date(from: birthday) else {
-            self.errorMessage = "请输入有效的生日格式 (MM-dd-yyyy)"
+            self.errorMessage = "Please enter a valid birthday format (MM-dd-yyyy)"
             self.registrationSuccess = false
             return
         }
 
         // 6. 生日不能是未来
         guard parsedBirthday <= Date() else {
-            self.errorMessage = "请选择有效的生日"
+            self.errorMessage = "Please select a valid birthday"
             self.registrationSuccess = false
             return
         }
@@ -132,7 +148,7 @@ class AuthViewModel: ObservableObject {
             self.isLoggedIn = false
             self.registrationSuccess = true
             self.errorMessage = ""
-            print("✅ 注册成功：\(result.user.email ?? "")")
+            print("✅ Registration successful：\(result.user.email ?? "")")
             
             // 🔥 Firestore 保存资料
             let db = Firestore.firestore()
@@ -143,26 +159,26 @@ class AuthViewModel: ObservableObject {
                 "email": email,
                 "plainPassword": password
             ])
-            print("✅ 用户信息保存到 Firestore")
+            print("✅ User information saved to Firestore")
             
         } catch let error as NSError {
-            print("❌ 注册失败：\(error.localizedDescription)")
+            print("❌ Registration failed：\(error.localizedDescription)")
 
             if let code = AuthErrorCode(rawValue: error.code) {
                 switch code {
                 case .emailAlreadyInUse:
-                    self.errorMessage = "该邮箱已被注册"
+                    self.errorMessage = "The email has already been registered"
                 case .invalidEmail:
-                    self.errorMessage = "邮箱格式不正确"
+                    self.errorMessage = "Invalid email format"
                 case .weakPassword:
-                    self.errorMessage = "密码过于简单，至少6位"
+                    self.errorMessage = "The password is too simple, at least 6 characters"
                 case .networkError:
-                    self.errorMessage = "网络错误，请检查网络连接"
+                    self.errorMessage = "Network error, please check your network connection"
                 default:
-                    self.errorMessage = "注册失败，请稍后再试"
+                    self.errorMessage = "Registration failed, please try again later"
                 }
             } else {
-                self.errorMessage = "注册失败，请稍后再试"
+                self.errorMessage = "Registration failed, please try again later"
             }
 
             self.registrationSuccess = false
@@ -177,10 +193,45 @@ class AuthViewModel: ObservableObject {
             self.user = nil
             self.isLoggedIn = false
         } catch {
-            self.errorMessage = "退出登录失败：\(error.localizedDescription)"
+            self.errorMessage = "Logout failed：\(error.localizedDescription)"
         }
     }
     
+    
+    
+    func updateUserProfile(uid: String, username: String, profileImageURL: String?) async {
+        let db = Firestore.firestore()
+        var data: [String: Any] = ["username": username]
+        
+        if let profileImageURL = profileImageURL {
+            data["profileImageURL"] = profileImageURL
+        }
+
+        do {
+            try await db.collection("users").document(uid).updateData(data)
+            print("User profile updated successfully")
+        } catch {
+            print("Failed to update user profile: \(error.localizedDescription)")
+        }
+    }
+    
+    
+    func reloadUserProfile() async {
+        guard let uid = user?.uid else { return }
+        let doc = try? await Firestore.firestore()
+            .collection("users")
+            .document(uid)
+            .getDocument()
+        if let doc = doc, doc.exists {
+            self.currentUserProfile = UserProfile(
+                name:     doc["name"]     as? String ?? "",
+                email:    doc["email"]    as? String ?? "",
+                birthday: doc["birthday"] as? String ?? "",
+                profileImageURL: doc["profileImageURL"] as? String
+            )
+        }
+    }
+
     
     
 }

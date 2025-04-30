@@ -10,9 +10,16 @@ import SwiftUI
 struct LogInView: View {
     @StateObject var authViewModel = AuthViewModel.getAuth()
     @EnvironmentObject var downloadVM: DownloadPlayViewModel // ✅ 注入下载 ViewModel
+    
+    // ① 持久化上次登录的账号密码
+    @AppStorage("lastEmail") private var storedEmail: String = ""
+    @AppStorage("lastPassword") private var storedPassword: String = ""
 
-    @State private var email = ""
-    @State private var password = ""
+    // ② 绑定到输入框的 State
+    @State private var email: String = ""
+    @State private var password: String = ""
+
+
     @State private var navigateToContentView = false
     @State private var showForgetPassword = false
     @State private var showSignUp = false
@@ -94,6 +101,9 @@ struct LogInView: View {
                                         await authViewModel.login(email: email, password: password)
 
                                         if authViewModel.isLoggedIn {
+                                            // ③ 登录成功后保存到本地
+                                            storedEmail = email
+                                            storedPassword = password
                                             // ✅ 登录成功后调用同步
                                             SyncManager.shared.syncDownloadedMusicIfNeeded(viewModel: downloadVM)
                                             navigateToContentView = true
@@ -138,6 +148,12 @@ struct LogInView: View {
                 }
             }
             .navigationBarHidden(true)
+            .onAppear {
+                if !storedEmail.isEmpty {
+                    email = storedEmail
+                    password = storedPassword
+                }
+            }
         }
     }
 }

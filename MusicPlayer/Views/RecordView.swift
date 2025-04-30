@@ -9,6 +9,7 @@ struct RecordView: View {
     //@State private var recordedNotes: [String] = []
     @State private var isRecording = false
     let toneProcessor = ToneProcessor();
+    var authViewModel = AuthViewModel.getAuth();
     
     @StateObject var recordModel = RecordViewModel()
 
@@ -82,7 +83,15 @@ struct RecordView: View {
             }
             .edgesIgnoringSafeArea(.all)
             .navigationTitle("Record Tones")
-            .navigationBarHidden(true)
+            
+            .toolbar {
+                // 右上角个人资料菜单，注入同一个 authViewModel 实例
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    ProfileMenuView()
+                        .environmentObject(authViewModel)
+                        .offset(y: -4)
+                }
+            }
         }
     }
 struct RecordView_Previews: PreviewProvider {

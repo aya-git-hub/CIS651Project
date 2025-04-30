@@ -4,7 +4,11 @@ import FirebaseStorage
 import FirebaseCore
 import Firebase
 import FirebaseAuth
-
+enum PlayStatus {
+    case playing
+    case pause
+    case stopped
+}
 // Singleton
 class DownloadPlayViewModel: NSObject, ObservableObject {
     @Published var downloadProgress: Double = 0
@@ -13,6 +17,7 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
     @Published var player: AVPlayer?
     @Published var errorMessage: String?
     @Published var currentPlayingMusic: String? = nil
+    @Published var playStatus:PlayStatus = PlayStatus.stopped
     
     static var dpvm: DownloadPlayViewModel?
     static func getDownloadPlay() -> DownloadPlayViewModel {
@@ -107,12 +112,22 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
             }
         }
     }
+    func iWantToPlay(_ musicName:String){
+        if (self.playStatus == .pause||self.playStatus == .stopped){
+            self.playMusic(musicName)
+        }
+        else {
+            self.stopPlaying()
+        }
+    }
+    
     
     func playMusic(_ musicName: String) {
         if let currentPlayer = player {
             currentPlayer.pause()
             player = nil
             currentPlayingMusic = nil
+            
         }
         
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
@@ -122,6 +137,7 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
             DispatchQueue.main.async {
                 self.player = AVPlayer(url: musicURL)
                 self.currentPlayingMusic = musicName
+                self.playStatus = .playing
                 self.player?.play()
             }
         }
@@ -130,7 +146,8 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
     func stopPlaying() {
         player?.pause()
         player = nil
-        currentPlayingMusic = nil
+        self.playStatus = .stopped
+        self.currentPlayingMusic = nil
     }
     
     func deleteDownloadedMusic(_ musicName: String) {

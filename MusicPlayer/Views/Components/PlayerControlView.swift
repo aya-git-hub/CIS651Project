@@ -12,18 +12,21 @@ import AVKit
 
 struct PlayerControlView: View {
     let player: AVPlayer
-    @State private var isPlaying: Bool = false
+    @State var isPlaying: Bool /*= false*/
     @State private var currentTime: Double = 0
     @State private var duration: Double = 0
     @State private var timeObserverToken: Any?
+    @StateObject private var viewModel = DownloadPlayViewModel.getDownloadPlay()
     
     var body: some View {
         HStack(spacing: 20) {
             Button(action: {
-                if isPlaying {
+                if viewModel.playStatus == .playing {
                     player.pause()
+                    viewModel.playStatus = .pause
                 } else {
                     player.play()
+                    viewModel.playStatus = .playing
                 }
                 isPlaying.toggle()
             }) {

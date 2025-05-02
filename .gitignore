@@ -1,0 +1,58 @@
+
+# macOS
+.DS_Store
+
+# Xcode
+build/
+DerivedData/
+*.xcworkspace
+!default.xcworkspace
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout
+*.xcscmblueprint
+*.xcscmblueprint
+
+# Xcode IDE
+*.xcuserdatad
+*.xcactivitylog
+
+# Swift Package Manager
+.build/
+Packages/
+Package.resolved
+
+# CocoaPods
+Pods/
+Podfile.lock
+
+# Carthage
+Carthage/Build/
+
+# fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/
+fastlane/test_output/
+
+# Mint
+Mint/
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Generated files
+*.hmap
+*.ipa
+*.dSYM
+*.dSYM.zip
+
+# Config files
+Config.xcconfig
+
+# Misc
+*.moved-aside
+*.lock
+MusicPlayer.xcodeproj/xcshareddata/xcschemes/MusicPlayer.xcscheme

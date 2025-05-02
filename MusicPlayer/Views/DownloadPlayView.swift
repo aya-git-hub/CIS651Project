@@ -5,6 +5,7 @@ import LLM
 
 struct DownloadPlayView: View {
     @StateObject private var viewModel = DownloadPlayViewModel.getDownloadPlay()
+    @ObservedObject var playerViewModel: PlayerTestViewModel
     @State private var searchText: String = ""
     @State private var showDeleteAlert = false
     @State private var selectedMusicForDelete: String? = nil
@@ -29,7 +30,7 @@ struct DownloadPlayView: View {
 
     var body: some View {
         NavigationView {
-            ZStack {
+            ZStack(alignment: .bottom) {
                 // 主内容
                 VStack(spacing: 0) {
                     // 搜索栏
@@ -91,9 +92,13 @@ struct DownloadPlayView: View {
                             .background(Color(UIColor.systemGray6))
                     }
                 }
-
                 // 退出登录按钮（固定左上角）
                 
+                // 迷你播放器
+                if playerViewModel.currentMusicIndex > 0 {
+                    MiniPlayerView(viewModel: playerViewModel)
+                        .transition(.move(edge: .bottom))
+                }
                 
                 // 悬浮可拖拽聊天按钮
                 DraggableChatButton {
@@ -132,11 +137,5 @@ struct DownloadPlayView: View {
             alertMessage = "音乐文件不存在，请先下载"
             showAlert = true
         }
-    }
-}
-
-struct DownloadPlayView_Previews: PreviewProvider {
-    static var previews: some View {
-        DownloadPlayView()
     }
 }

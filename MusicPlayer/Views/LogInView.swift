@@ -30,7 +30,7 @@ struct LogInView: View {
             ZStack(alignment: .topLeading) {
                 // ✅ 页面跳转：成功登录后前往主界面（测试页面）
                 NavigationLink(
-                    destination: MainView()
+                    destination: MainView(viewModel: PlayerTestViewModel())
                         .environmentObject(downloadVM), // ✅ 继续传入
                     isActive: $navigateToContentView
                 ) {

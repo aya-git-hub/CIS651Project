@@ -3,7 +3,7 @@ import SwiftUI
 /// 音乐列表视图
 /// 用于：显示可播放的音乐列表
 struct MusicListView: View {
-    @StateObject private var viewModel = PlayerTestViewModel()
+    @ObservedObject var viewModel: PlayerTestViewModel
     @State private var showPlayer = false
     
     var body: some View {
@@ -34,7 +34,7 @@ struct MusicListView: View {
                 .navigationTitle("音乐列表")
                 
                 // 迷你播放器
-                if viewModel.currentMusicIndex >= 0 {
+                if viewModel.currentMusicIndex > 0 {
                     MiniPlayerView(viewModel: viewModel)
                         .transition(.move(edge: .bottom))
                 }

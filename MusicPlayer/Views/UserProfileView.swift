@@ -33,31 +33,14 @@ struct UserProfileView: View {
             ScrollView {
                 VStack(spacing: 24) {
                     // MARK: 头像选择器
-                    PhotosPicker(selection: $selectedImage, matching: .images) {
-                        Group {
-                            if let uiImage = profileImage {
-                                Image(uiImage: uiImage)
-                                    .resizable()
-                                    .scaledToFill()
-                            } else if let urlString = imageURLString,
-                                      let url = URL(string: urlString) {
-                                AsyncImage(url: url) { img in
-                                    img.resizable()
-                                } placeholder: {
-                                    Color.gray
-                                }
-                                .scaledToFill()
-                            } else {
-                                Image(systemName: "person.crop.circle.badge.plus")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .foregroundColor(.gray)
-                            }
-                        }
-                        .frame(width: 120, height: 120)
-                        .clipShape(Circle())
-                        .overlay(Circle().stroke(Color.gray.opacity(0.4), lineWidth: 2))
-                    }
+                    Image("avatar2")
+                         .resizable()
+                         .scaledToFill()
+                         .frame(width: 120, height: 120)
+                         .clipShape(Circle())
+                         .overlay(Circle().stroke(Color.gray.opacity(0.4), lineWidth: 2))
+
+                    
 
                     // MARK: 用户信息字段
                     Group {

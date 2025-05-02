@@ -21,6 +21,9 @@ struct SignUpView: View {
     @State private var showSuccessAlert = false
     
     @State private var isLoading = false
+    
+    @AppStorage("lastEmail") private var storedEmail: String = ""
+    @AppStorage("lastPassword") private var storedPassword: String = ""
 
     var body: some View {
         NavigationView {
@@ -121,6 +124,9 @@ struct SignUpView: View {
                                                 await MainActor.run {
                                                     showSuccessAlert = true
                                                 }
+                                                storedEmail    = email
+                                                storedPassword = password
+                                                showSuccessAlert = true
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
                                                     dismiss()
                                                 }
@@ -168,7 +174,7 @@ struct SignUpView: View {
             }
         }
         .navigationBarHidden(true)
-        .alert("注册成功！", isPresented: $showSuccessAlert) {
+        .alert("Signup success！", isPresented: $showSuccessAlert) {
             Button("OK", role: .cancel) { }
         }
     }

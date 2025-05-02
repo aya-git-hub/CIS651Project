@@ -32,19 +32,11 @@ struct ProfileMenuView: View {
             }
 
         } label: {
-            if let url = authViewModel.currentUserProfile?.profileImageURL,
-               let imageURL = URL(string: url) {
-                AsyncImage(url: imageURL) { image in
-                    image.resizable().scaledToFill()
-                } placeholder: {
-                    Color.gray
-                }
+            Image("avatar2")
+                .resizable()
+                .scaledToFill()
                 .frame(width: 36, height: 36)
                 .clipShape(Circle())
-            } else {
-                Image(systemName: "person.crop.circle")
-                    .font(.title2)
-            }
         }
         .sheet(isPresented: $showProfileSheet) {
             UserProfileView()

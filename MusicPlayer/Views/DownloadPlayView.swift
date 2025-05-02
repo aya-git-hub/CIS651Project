@@ -59,6 +59,7 @@ struct DownloadPlayView: View {
                         }
                     }
                     .listStyle(PlainListStyle())
+                    .frame(maxHeight: 600)
 
                     // 已下载音乐列表
                     /*if !viewModel.downloadedItems.isEmpty {
@@ -100,7 +101,7 @@ struct DownloadPlayView: View {
                     showChatView = true
                 }
             }
-            .navigationTitle("Search Your Music")
+
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text("提示"),
@@ -109,6 +110,8 @@ struct DownloadPlayView: View {
                 )
             }
         }
+        .navigationTitle("Search Your Music")
+        .navigationBarBackButtonHidden(true)
         .toolbar {
                     // 右上角个人资料菜单，注入同一个 authViewModel 实例
                     ToolbarItem(placement: .navigationBarTrailing) {

@@ -154,6 +154,8 @@ struct LogInView: View {
                     password = storedPassword
                 }
             }
+            .onChange(of: storedEmail) { email = $0 }
+            .onChange(of: storedPassword) { password = $0 }
         }
     }
 }

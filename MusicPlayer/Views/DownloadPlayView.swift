@@ -46,12 +46,12 @@ struct DownloadPlayView: View {
                                 MusicRow(
                                     musicName: music,
                                     isDownloaded: viewModel.downloadedItems.contains(music),
-                                    isPlaying: viewModel.currentPlayingMusic == music,
+                                    playerViewModel: playerViewModel,
                                     downloadAction: {
                                         if !viewModel.downloadedItems.contains(music) {
                                             viewModel.downloadWithMetadata(for: music)
                                         }
-                                    },
+                                    }/*,
                                     playAction: {
                                         if viewModel.downloadedItems.contains(music) {
                                             if viewModel.currentPlayingMusic == music {
@@ -65,7 +65,7 @@ struct DownloadPlayView: View {
                                             alertMessage = "请先下载音乐"
                                             showAlert = true
                                         }
-                                    }
+                                    }*/
                                 )
                                 .padding(.horizontal)
                                 .background(

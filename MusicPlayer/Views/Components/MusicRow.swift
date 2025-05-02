@@ -4,10 +4,14 @@ import SwiftUI
 struct MusicRow: View {
     let musicName: String
     let isDownloaded: Bool
-    let isPlaying: Bool
+    @ObservedObject var playerViewModel: PlayerTestViewModel
     let downloadAction: () -> Void
-    let playAction: () -> Void
     var showDivider: Bool = true // 是否显示底部分隔线
+    
+    // 计算当前音乐是否正在播放
+    private var isPlaying: Bool {
+        playerViewModel.currentMusicName == musicName && playerViewModel.isPlaying
+    }
     
     var body: some View {
         VStack(spacing: 0) {
@@ -43,9 +47,13 @@ struct MusicRow: View {
                     }
                     if isDownloaded {
                         if isPlaying {
-                            Button("暂停", action: playAction)
+                            Button("停止", action: {
+                                playerViewModel.stop()
+                            })
                         } else {
-                            Button("播放", action: playAction)
+                            Button("播放", action: {
+                                playerViewModel.playDownloadedMusic(musicName)
+                            })
                         }
                     }
                 } label: {

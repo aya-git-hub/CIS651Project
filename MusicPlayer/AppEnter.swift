@@ -15,7 +15,7 @@ struct LoginApp: App {
      */
     @StateObject var authViewModel = AuthViewModel.getAuth()
     @StateObject var downloadVM = DownloadPlayViewModel.getDownloadPlay()
-    
+    @StateObject var playerViewModel = PlayerTestViewModel()
     @StateObject var mediaState = MediaPlayerState()
     
     init() {
@@ -25,12 +25,12 @@ struct LoginApp: App {
     var body: some Scene {
         WindowGroup {
             if authViewModel.isLoggedIn {
-                MainView()
+                MainView(viewModel: playerViewModel)
                     .environmentObject(authViewModel)
                     .environmentObject(downloadVM) // ✅ 注入
                     .environmentObject(mediaState)
             } else {
-                LogInView()
+                LogInView(viewModel: playerViewModel)
                     .environmentObject(authViewModel)
                     .environmentObject(downloadVM) // ✅ 注入
                     .environmentObject(mediaState)

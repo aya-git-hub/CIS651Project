@@ -9,6 +9,7 @@ import SwiftUI;
 
 struct MainView: View {
     @EnvironmentObject var mediaPlayerState: MediaPlayerState
+    @ObservedObject var viewModel: PlayerTestViewModel
     var body: some View {
         NavigationView {
             VStack {
@@ -22,11 +23,14 @@ struct MainView: View {
                     .cornerRadius(10)
                     .shadow(radius: 5)
                     .padding()
-                
-//
-
                                
                 Spacer()
+                
+                // 迷你播放器
+                if viewModel.currentMusicIndex >= 0 {
+                    MiniPlayerView(viewModel: viewModel)
+                        .transition(.move(edge: .bottom))
+                }
                 
                 HStack(spacing: 50) {
                     NavigationLink(destination: HomeView().environmentObject(mediaPlayerState)
@@ -43,7 +47,7 @@ struct MainView: View {
                         }
                         .padding()
                     }
-                    NavigationLink(destination: PlayMusicView()) {
+                    NavigationLink(destination: PlayerTestView(viewModel: viewModel)) {
                         VStack {
                             Image(systemName: "music.note")
                                 .font(.system(size: 28))
@@ -64,7 +68,7 @@ struct MainView: View {
                         .padding()
                     }
                     
-                    NavigationLink(destination: DownloadPlayView()) {
+                    NavigationLink(destination: DownloadPlayView(playerViewModel: viewModel)) {
                         VStack {
                             Image(systemName: "arrow.down.circle.fill")
                                 .font(.system(size: 28))
@@ -82,12 +86,5 @@ struct MainView: View {
             }
             .ignoresSafeArea(edges: .bottom) // 让底部栏贴合屏幕底部
         }
-    }
-}
-
-// 预览
-struct MainPreviews: PreviewProvider {
-    static var previews: some View {
-        MainView()
     }
 }

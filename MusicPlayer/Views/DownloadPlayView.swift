@@ -1,10 +1,10 @@
-
 import SwiftUI
 import AVKit
 import LLM
 
 struct DownloadPlayView: View {
     @StateObject private var viewModel = DownloadPlayViewModel.getDownloadPlay()
+    @ObservedObject var playerViewModel: PlayerTestViewModel
     @State private var searchText: String = ""
     @State private var showDeleteAlert = false
     @State private var selectedMusicForDelete: String? = nil
@@ -13,8 +13,6 @@ struct DownloadPlayView: View {
     @State private var showChatView = false
     var authViewModel = AuthViewModel.getAuth()
     @State private var navigateToLogin = false
-    @State private var is_Playing: Bool = false
-    
     
     // 根据搜索文本过滤音乐名称
     var filteredMusicNames: [String] {
@@ -30,16 +28,20 @@ struct DownloadPlayView: View {
     var body: some View {
         NavigationView {
             ZStack {
+                // 背景色
+                Color(UIColor.systemBackground)
+                    .ignoresSafeArea()
+                
                 // 主内容
-                VStack(spacing: 0) {
+                VStack(spacing: 16) {
                     // 搜索栏
                     SearchBar(text: $searchText)
                         .padding(.horizontal)
                         .padding(.top, 8)
-
+                    
                     // 可下载音乐列表
-                    List {
-                        Section(header: Text("Downloadable Music")) {
+                    ScrollView {
+                        LazyVStack(spacing: 12) {
                             ForEach(filteredMusicNames, id: \.self) { music in
                                 MusicRow(
                                     musicName: music,
@@ -51,56 +53,56 @@ struct DownloadPlayView: View {
                                         }
                                     },
                                     playAction: {
-                                        viewModel.iWantToPlay(music)
-                                        
+                                        if viewModel.downloadedItems.contains(music) {
+                                            if viewModel.currentPlayingMusic == music {
+                                                // 如果当前正在播放这首音乐，则暂停
+                                                playerViewModel.pause()
+                                            } else {
+                                                // 否则开始播放这首音乐
+                                                playerViewModel.playDownloadedMusic(music)
+                                            }
+                                        } else {
+                                            alertMessage = "请先下载音乐"
+                                            showAlert = true
+                                        }
                                     }
                                 )
-                            }
-                        }
-                    }
-                    .listStyle(PlainListStyle())
-
-                    // 已下载音乐列表
-                    /*if !viewModel.downloadedItems.isEmpty {
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Downloaded Music")
-                                .font(.headline)
                                 .padding(.horizontal)
-                                .padding(.top, 8)
-
-                            List {
-                                ForEach(viewModel.downloadedItems, id: \.self) { music in
-                                    DownloadedMusicRow(
-                                        musicName: music,
-                                        isPlaying: viewModel.currentPlayingMusic == music,
-                                        deleteAction: {
-                                            viewModel.deleteMusicEverywhere(music)
-                                        }
-                                    )
-                                }
+                                .background(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .fill(Color(UIColor.secondarySystemBackground))
+                                        .shadow(color: Color.black.opacity(0.05), radius: 5, x: 0, y: 2)
+                                )
+                                .padding(.horizontal, 8)
                             }
-                            .listStyle(PlainListStyle())
                         }
-                        .frame(height: 200)
-                    }*/
-
-                    // 播放器控制区域
-                    if let player = viewModel.player {
-                        PlayerControlView(player: player,isPlaying: viewModel.currentPlayingMusic != nil)
-                            .padding()
-                            .background(Color(UIColor.systemGray6))
+                        .padding(.vertical, 8)
                     }
+                    .frame(maxHeight: UIScreen.main.bounds.height * 0.55)
+                    
+                    Spacer()
                 }
-
-                // 退出登录按钮（固定左上角）
-                
+                .padding(.bottom, playerViewModel.currentMusicIndex >= 0 ? 80 : 16)
                 
                 // 悬浮可拖拽聊天按钮
                 DraggableChatButton {
                     showChatView = true
                 }
+                
+                // 迷你播放器
+                if playerViewModel.currentMusicIndex >= 0 {
+                    VStack {
+                        Spacer()
+                        MiniPlayerView(viewModel: playerViewModel)
+                            .transition(.move(edge: .bottom))
+                            .background(
+                                RoundedRectangle(cornerRadius: 15)
+                                    .fill(Color(UIColor.systemBackground))
+                                    .shadow(color: Color.black.opacity(0.15), radius: 10, x: 0, y: -5)
+                            )
+                    }
+                }
             }
-            .navigationTitle("Search Your Music")
             .alert(isPresented: $showAlert) {
                 Alert(
                     title: Text("提示"),
@@ -109,34 +111,15 @@ struct DownloadPlayView: View {
                 )
             }
         }
+        .navigationTitle("Search Your Music")
         .toolbar {
-                    // 右上角个人资料菜单，注入同一个 authViewModel 实例
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        ProfileMenuView()
-                            .environmentObject(authViewModel)
-                            .offset(y: -4)
-                    }
-                }
+            ToolbarItem(placement: .navigationBarTrailing) {
+                ProfileMenuView()
+                    .environmentObject(authViewModel)
+            }
+        }
         .sheet(isPresented: $showChatView) {
             AiChatView()
         }
-    }
-
-    private func playMusic(_ musicName: String) {
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let musicURL = documentsDirectory.appendingPathComponent(musicName)
-        
-        if FileManager.default.fileExists(atPath: musicURL.path) {
-            viewModel.playMusic(musicName)
-        } else {
-            alertMessage = "音乐文件不存在，请先下载"
-            showAlert = true
-        }
-    }
-}
-
-struct DownloadPlayView_Previews: PreviewProvider {
-    static var previews: some View {
-        DownloadPlayView()
     }
 }

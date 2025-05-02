@@ -7,7 +7,6 @@ struct SongView: View {
     }
     
     @EnvironmentObject var mediaPlayerState: MediaPlayerState
-    @StateObject private var audioPlayer = AudioPlayer()
     @State private var isSliderEditing = false
     @State private var dragOffset: CGFloat = 0
     

@@ -22,6 +22,8 @@ struct SongTypeView: View {
                 .padding(8)
                 .lineLimit(2)
                 .fixedSize(horizontal: false, vertical: true)
+            
+            
         }
         .frame(width: 150, height:150)
     }

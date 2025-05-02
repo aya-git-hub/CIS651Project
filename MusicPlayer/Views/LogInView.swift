@@ -9,6 +9,7 @@ import SwiftUI
 
 struct LogInView: View {
     @StateObject var authViewModel = AuthViewModel.getAuth()
+    @ObservedObject var viewModel: PlayerTestViewModel
     @EnvironmentObject var downloadVM: DownloadPlayViewModel // ✅ 注入下载 ViewModel
     
     // ① 持久化上次登录的账号密码
@@ -30,7 +31,7 @@ struct LogInView: View {
             ZStack(alignment: .topLeading) {
                 // ✅ 页面跳转：成功登录后前往主界面（测试页面）
                 NavigationLink(
-                    destination: MainView()
+                    destination: MainView(viewModel: viewModel)
                         .environmentObject(downloadVM), // ✅ 继续传入
                     isActive: $navigateToContentView
                 ) {
@@ -154,6 +155,9 @@ struct LogInView: View {
                     password = storedPassword
                 }
             }
+            .onChange(of: storedEmail) { email = $0 }
+            .onChange(of: storedPassword) { password = $0 }
         }
     }
 }
+

@@ -4,20 +4,14 @@ import FirebaseStorage
 import FirebaseCore
 import Firebase
 import FirebaseAuth
-enum PlayStatus {
-    case playing
-    case pause
-    case stopped
-}
+
 // Singleton
 class DownloadPlayViewModel: NSObject, ObservableObject {
     @Published var downloadProgress: Double = 0
     @Published var downloadedItems: [String] = []
     @Published var availableMusicItems: [String] = []
-    @Published var player: AVPlayer?
     @Published var errorMessage: String?
     @Published var currentPlayingMusic: String? = nil
-    @Published var playStatus:PlayStatus = PlayStatus.stopped
     
     static var dpvm: DownloadPlayViewModel?
     static func getDownloadPlay() -> DownloadPlayViewModel {
@@ -41,34 +35,34 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
     }
     
     public func loadDownloadedMusic() {
-            // 1) 没登录就清空并退出
-            guard let email = Auth.auth().currentUser?.email else {
-                self.downloadedItems = []
-                return
-            }
-            
-            // 2) 查询 Firestore
-            Firestore.firestore()
-                .collection("user_musics")             // 你的记录集合
-                .whereField("userEmail", isEqualTo: email)
-                .getDocuments { [weak self] snapshot, error in
-                    guard let self = self else { return }
-                    
-                    if let error = error {
-                        DispatchQueue.main.async {
-                            self.errorMessage = "加载已下载音乐失败: \(error.localizedDescription)"
-                        }
-                        return
-                    }
-                    
-                    // 3) 提取 musicName 字段并更新 UI
-                    let names = snapshot?.documents.compactMap { $0["musicName"] as? String } ?? []
-                    DispatchQueue.main.async {
-                        self.downloadedItems = names
-                        print("I loaded \(names)")
-                    }
-                }
+        // 1) 没登录就清空并退出
+        guard let email = Auth.auth().currentUser?.email else {
+            self.downloadedItems = []
+            return
         }
+        
+        // 2) 查询 Firestore
+        Firestore.firestore()
+            .collection("user_musics")             // 你的记录集合
+            .whereField("userEmail", isEqualTo: email)
+            .getDocuments { [weak self] snapshot, error in
+                guard let self = self else { return }
+                
+                if let error = error {
+                    DispatchQueue.main.async {
+                        self.errorMessage = "加载已下载音乐失败: \(error.localizedDescription)"
+                    }
+                    return
+                }
+                
+                // 3) 提取 musicName 字段并更新 UI
+                let names = snapshot?.documents.compactMap { $0["musicName"] as? String } ?? []
+                DispatchQueue.main.async {
+                    self.downloadedItems = names
+                    print("I loaded \(names)")
+                }
+            }
+    }
     
     private func fetchAvailableMusic() {
         let storageRef = storage.reference().child("music")
@@ -87,83 +81,6 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
         }
     }
     
-    func downloadFile(for musicName: String) {
-        DispatchQueue.main.async {
-            self.downloadProgress = 0
-            self.errorMessage = nil
-        }
-        
-        let musicRef = storage.reference().child("music/\(musicName)")
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let localURL = documentsDirectory.appendingPathComponent(musicName)
-        
-        let downloadTask = musicRef.write(toFile: localURL)
-        
-        downloadTask.observe(.progress) { [weak self] snapshot in
-            guard let self = self else { return }
-            if let progress = snapshot.progress {
-                let percentComplete = Double(progress.completedUnitCount) / Double(progress.totalUnitCount)
-                DispatchQueue.main.async {
-                    self.downloadProgress = percentComplete
-                }
-            }
-        }
-        
-        downloadTask.observe(.success) { [weak self] _ in
-            guard let self = self else { return }
-            DispatchQueue.main.async {
-                self.downloadedItems.append(musicName)
-                self.downloadProgress = 1.0
-            }
-        }
-        
-        downloadTask.observe(.failure) { [weak self] snapshot in
-            guard let self = self else { return }
-            if let error = snapshot.error {
-                DispatchQueue.main.async {
-                    self.errorMessage = "下载失败: \(error.localizedDescription)"
-                }
-            }
-        }
-    }
-    func iWantToPlay(_ musicName:String){
-        if (self.playStatus == .pause||self.playStatus == .stopped){
-            self.playMusic(musicName)
-        }
-        else {
-            self.stopPlaying()
-        }
-    }
-    
-    
-    func playMusic(_ musicName: String) {
-        if let currentPlayer = player {
-            currentPlayer.pause()
-            player = nil
-            currentPlayingMusic = nil
-            
-        }
-        
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let musicURL = documentsDirectory.appendingPathComponent(musicName)
-        
-        if FileManager.default.fileExists(atPath: musicURL.path) {
-            DispatchQueue.main.async {
-                self.player = AVPlayer(url: musicURL)
-                self.currentPlayingMusic = musicName
-                self.playStatus = .playing
-                self.player?.play()
-            }
-        }
-    }
-    
-    func stopPlaying() {
-        player?.pause()
-        player = nil
-        self.playStatus = .stopped
-        self.currentPlayingMusic = nil
-    }
-    
     func deleteDownloadedMusic(_ musicName: String) {
         let fileManager = FileManager.default
         guard let documentsPath = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first else { return }
@@ -174,7 +91,7 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
             DispatchQueue.main.async {
                 self.downloadedItems.removeAll { $0 == musicName }
                 if self.currentPlayingMusic == musicName {
-                    self.stopPlaying()
+                    self.currentPlayingMusic = nil
                 }
             }
         } catch {
@@ -184,6 +101,7 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
         }
     }
 }
+
 extension DownloadPlayViewModel: URLSessionDownloadDelegate {
     // 使用 URLSession 下载并自动写入 Firestore 元数据
     func downloadWithMetadata(for musicName: String) {
@@ -251,7 +169,6 @@ extension DownloadPlayViewModel: URLSessionDownloadDelegate {
             DispatchQueue.main.async {
                 self.downloadedItems.append(fileName)
                 self.downloadProgress = 1.0
-                //self.player = AVPlayer(url: destinationURL)
             }
 
         } catch {
@@ -295,5 +212,4 @@ extension DownloadPlayViewModel: URLSessionDownloadDelegate {
         deleteDownloadedMusic(musicName)
         deleteMusicFromUserMusics(musicName)
     }
-
 }

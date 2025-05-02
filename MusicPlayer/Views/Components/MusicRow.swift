@@ -8,7 +8,7 @@ struct MusicRow: View {
     let downloadAction: () -> Void
     let playAction: () -> Void
     var showDivider: Bool = true // 是否显示底部分隔线
-    @StateObject private var viewModel = DownloadPlayViewModel.getDownloadPlay()
+    
     var body: some View {
         VStack(spacing: 0) {
             HStack(spacing: 10) {
@@ -42,14 +42,9 @@ struct MusicRow: View {
                         Button("已下载") {}.disabled(true)
                     }
                     if isDownloaded {
-                        Button(action: playAction){switch viewModel.playStatus {
-                        case .playing:
-                            Text("Stop")           // 正在播放 → 显示“暂停”
-                        case .pause:
-                            Text("Replay")       // 暂停中 → “继续播放”
-                        case .stopped:
-                            Text("Play")           // 停止状态 → “播放”
-                        }}
+                        Button(action: playAction) {
+                            Text(isPlaying ? "暂停" : "播放")
+                        }
                     }
                 } label: {
                     Image(systemName: "ellipsis.circle")

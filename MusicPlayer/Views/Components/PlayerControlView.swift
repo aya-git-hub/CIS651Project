@@ -11,24 +11,17 @@ import SwiftUI
 import AVKit
 
 struct PlayerControlView: View {
-    let player: AVPlayer
-    @State var isPlaying: Bool /*= false*/
-    @State private var currentTime: Double = 0
-    @State private var duration: Double = 0
-    @State private var timeObserverToken: Any?
-    @StateObject private var viewModel = DownloadPlayViewModel.getDownloadPlay()
+    @ObservedObject var viewModel: PlayerTestViewModel
+    let isPlaying: Bool
     
     var body: some View {
         HStack(spacing: 20) {
             Button(action: {
-                if viewModel.playStatus == .playing {
-                    player.pause()
-                    viewModel.playStatus = .pause
+                if isPlaying {
+                    viewModel.pause()
                 } else {
-                    player.play()
-                    viewModel.playStatus = .playing
+                    viewModel.resume()
                 }
-                isPlaying.toggle()
             }) {
                 Image(systemName: isPlaying ? "pause.circle.fill" : "play.circle.fill")
                     .font(.system(size: 44))
@@ -39,59 +32,14 @@ struct PlayerControlView: View {
                 Text("正在播放")
                     .font(.caption)
                     .foregroundColor(.gray)
-                Text(getCurrentPlayingName())
+                Text(viewModel.currentMusicName)
                     .font(.system(size: 16))
                     .lineLimit(1)
                 
-                if duration > 0 {
-                    ProgressView(value: currentTime, total: duration)
+                if viewModel.duration > 0 {
+                    ProgressView(value: viewModel.currentTime, total: viewModel.duration)
                         .progressViewStyle(LinearProgressViewStyle())
                 }
-            }
-        }
-        .onAppear {
-            setupTimeObserver()
-            updatePlaybackState()
-        }
-        .onDisappear {
-            removeTimeObserver()
-        }
-    }
-    
-    private func getCurrentPlayingName() -> String {
-        if let currentItem = player.currentItem,
-           let urlAsset = currentItem.asset as? AVURLAsset {
-            return urlAsset.url.lastPathComponent
-        }
-        return "未知音乐"
-    }
-    
-    private func setupTimeObserver() {
-        let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
-        
-        timeObserverToken = player.addPeriodicTimeObserver(forInterval: interval, queue: .main) { time in
-            updatePlaybackState()
-        }
-    }
-    
-    private func removeTimeObserver() {
-        if let token = timeObserverToken {
-            player.removeTimeObserver(token)
-            timeObserverToken = nil
-        }
-    }
-    
-    private func updatePlaybackState() {
-        isPlaying = player.timeControlStatus == .playing
-        if let currentItem = player.currentItem {
-            let itemTime = currentItem.currentTime()
-            if itemTime.isValid && !itemTime.isIndefinite {
-                currentTime = CMTimeGetSeconds(itemTime)
-            }
-            
-            let itemDuration = currentItem.duration
-            if itemDuration.isValid && !itemDuration.isIndefinite {
-                duration = CMTimeGetSeconds(itemDuration)
             }
         }
     }

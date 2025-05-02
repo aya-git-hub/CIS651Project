@@ -133,9 +133,10 @@ class PlayerTestViewModel: ObservableObject {
                         self.currentMusicIndex = self.musicList.count - 1
                     }
                     
-                    // 更新当前音乐名称
+                    // 更新当前音乐名称和播放状态
                     self.currentMusicName = url.lastPathComponent
                     self.viewModel.currentPlayingMusic = self.currentMusicName
+                    self.isPlaying = true
                     
                     // 在后台线程开始播放
                     DispatchQueue.global(qos: .userInitiated).async {
@@ -238,6 +239,9 @@ class PlayerTestViewModel: ObservableObject {
     func stop() {
         player.stop()
         viewModel.currentPlayingMusic = nil
+        currentMusicName = ""
+        currentMusicIndex = -1
+        isPlaying = false
         syncPlaybackState()
     }
     

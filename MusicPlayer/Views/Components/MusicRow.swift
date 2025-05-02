@@ -42,8 +42,10 @@ struct MusicRow: View {
                         Button("已下载") {}.disabled(true)
                     }
                     if isDownloaded {
-                        Button(action: playAction) {
-                            Text(isPlaying ? "暂停" : "播放")
+                        if isPlaying {
+                            Button("暂停", action: playAction)
+                        } else {
+                            Button("播放", action: playAction)
                         }
                     }
                 } label: {

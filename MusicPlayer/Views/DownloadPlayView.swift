@@ -55,8 +55,8 @@ struct DownloadPlayView: View {
                                     playAction: {
                                         if viewModel.downloadedItems.contains(music) {
                                             if viewModel.currentPlayingMusic == music {
-                                                // 如果当前正在播放这首音乐，则暂停
-                                                playerViewModel.pause()
+                                                // 如果当前正在播放这首音乐，则停止播放
+                                                playerViewModel.stop()
                                             } else {
                                                 // 否则开始播放这首音乐
                                                 playerViewModel.playDownloadedMusic(music)

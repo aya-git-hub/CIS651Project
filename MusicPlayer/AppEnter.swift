@@ -16,6 +16,7 @@ struct LoginApp: App {
     @StateObject var authViewModel = AuthViewModel.getAuth()
     @StateObject var downloadVM = DownloadPlayViewModel.getDownloadPlay()
     
+    @StateObject var mediaState = MediaPlayerState()
     
     init() {
         FirebaseApp.configure()
@@ -27,10 +28,12 @@ struct LoginApp: App {
                 MainView()
                     .environmentObject(authViewModel)
                     .environmentObject(downloadVM) // ✅ 注入
+                    .environmentObject(mediaState)
             } else {
                 LogInView()
                     .environmentObject(authViewModel)
                     .environmentObject(downloadVM) // ✅ 注入
+                    .environmentObject(mediaState)
             }
         }
     }

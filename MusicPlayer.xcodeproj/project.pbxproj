@@ -56,6 +56,7 @@
 		9D51B7AE2D9786A7001291C2 /* ViewModels */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ViewModels; sourceTree = "<group>"; };
 		9D51B7AF2D978718001291C2 /* Utils */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Utils; sourceTree = "<group>"; };
 		9DD2DE982DB9A2F600998A4C /* Models */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Models; sourceTree = "<group>"; };
+		9DDC203A2DC5234400C369D0 /* Helpers 2 */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = "Helpers 2"; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,6 +128,7 @@
 		9D51B7702D973789001291C2 /* MusicPlayer */ = {
 			isa = PBXGroup;
 			children = (
+				9DDC203A2DC5234400C369D0 /* Helpers 2 */,
 				9DD2DE982DB9A2F600998A4C /* Models */,
 				9D51B7AF2D978718001291C2 /* Utils */,
 				9D51B7AE2D9786A7001291C2 /* ViewModels */,
@@ -161,6 +163,7 @@
 				9D51B7AE2D9786A7001291C2 /* ViewModels */,
 				9D51B7AF2D978718001291C2 /* Utils */,
 				9DD2DE982DB9A2F600998A4C /* Models */,
+				9DDC203A2DC5234400C369D0 /* Helpers 2 */,
 			);
 			name = MusicPlayer;
 			productName = Xylophone;

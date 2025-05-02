@@ -8,6 +8,7 @@
 import SwiftUI;
 
 struct MainView: View {
+    @EnvironmentObject var mediaPlayerState: MediaPlayerState
     var body: some View {
         NavigationView {
             VStack {
@@ -22,19 +23,18 @@ struct MainView: View {
                     .shadow(radius: 5)
                     .padding()
                 
-//                // 音乐播放控制按钮
-//                Image(systemName: "play.circle.fill")
-//                    .resizable()
-//                    .scaledToFit()
-//                    .frame(width: 80, height: 80)
-//                    .foregroundColor(.blue)
-//                    .padding()
+//
 
                                
                 Spacer()
                 
                 HStack(spacing: 50) {
-                    NavigationLink(destination: ToneView()) {
+                    NavigationLink(destination: HomeView().environmentObject(mediaPlayerState)
+                    
+                    
+                        .tabItem {
+                            Label("Home", systemImage: "house")
+                        }) {
                         VStack {
                             Image(systemName: "music.note")
                                 .font(.system(size: 28))

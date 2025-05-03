@@ -40,12 +40,10 @@ class AuthViewModel: ObservableObject {
     //Singleton, make sure only one AuthViewModel exists
     public static func getAuth() -> AuthViewModel {
         if avm == nil {
-            print("AuthViewModel: Initialized")
             avm =  AuthViewModel();
             return avm!;
         }
         else{
-            print("AuthViewModel: I already exist")
             return avm!;
         }
         
@@ -65,6 +63,10 @@ class AuthViewModel: ObservableObject {
             self.user = result.user
             self.isLoggedIn = true
             self.errorMessage = ""
+            
+            // 使用 PlayerTestViewModel 单例处理登录
+            PlayerTestViewModel.getPlayer().handleUserLogin()
+            
             print("✅ Login successful: \(result.user.email ?? "")")
         } catch {
             self.isLoggedIn = false
@@ -189,6 +191,9 @@ class AuthViewModel: ObservableObject {
     
     func signOut() {
         do {
+            // 使用 PlayerTestViewModel 单例处理登出
+            PlayerTestViewModel.getPlayer().handleUserLogout()
+            
             try Auth.auth().signOut()
             self.user = nil
             self.isLoggedIn = false

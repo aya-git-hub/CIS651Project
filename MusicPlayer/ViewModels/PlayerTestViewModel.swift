@@ -38,7 +38,16 @@ extension Notification.Name {
 /// Player test view model
 /// Used for: managing data and logic for the player test interface
 class PlayerTestViewModel: ObservableObject {
-    @StateObject private var viewModel = DownloadPlayViewModel.getDownloadPlay()
+    private var viewModel = DownloadPlayViewModel.getDownloadPlay()
+    
+    // 单例模式
+    static var shared: PlayerTestViewModel?
+    static func getPlayer() -> PlayerTestViewModel {
+        if shared == nil {
+            shared = PlayerTestViewModel()
+        }
+        return shared!
+    }
     
     // MARK: - Published Properties
     
@@ -109,9 +118,50 @@ class PlayerTestViewModel: ObservableObject {
         setupBindings()
         loadDownloadedMusic()
         setupSync()
+        
+        // 确保初始状态正确
+        currentMusicIndex = -1
+        currentMusicName = ""
+        isPlaying = false
+        currentTime = 0
+        duration = 0
+        progress = 0
+        playbackRate = 1.0
+        errorMessage = nil
+        viewModel.currentPlayingMusic = nil
     }
     
     // MARK: - Public Methods
+    
+    /// Reset player state
+    /// Used for: resetting player state when user logs in
+    func resetPlayerState() {
+        stop()
+        musicList.removeAll()
+        currentMusicIndex = -1
+        currentMusicName = ""
+        isPlaying = false
+        currentTime = 0
+        duration = 0
+        progress = 0
+        playbackRate = 1.0
+        errorMessage = nil
+        viewModel.currentPlayingMusic = nil
+    }
+    
+    /// Handle user logout
+    /// Used for: stopping player and resetting state when user logs out
+    func handleUserLogout() {
+        stop()
+        resetPlayerState()
+    }
+    
+    /// Handle user login
+    /// Used for: resetting player state when user logs in
+    func handleUserLogin() {
+        resetPlayerState()
+        loadDownloadedMusic()
+    }
     
     /// Play music
     /// - Parameter url: Music file URL
@@ -242,6 +292,8 @@ class PlayerTestViewModel: ObservableObject {
         currentMusicName = ""
         currentMusicIndex = -1
         isPlaying = false
+        currentTime = 0
+        progress = 0
         syncPlaybackState()
     }
     
@@ -339,10 +391,6 @@ class PlayerTestViewModel: ObservableObject {
                     musicCache.setURL(musicURL, for: musicName)
                 }
             }
-        }
-        
-        if currentMusicIndex == -1 && !musicList.isEmpty {
-            currentMusicIndex = 0
         }
     }
     

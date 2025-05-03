@@ -15,7 +15,7 @@ struct LoginApp: App {
      */
     @StateObject var authViewModel = AuthViewModel.getAuth()
     @StateObject var downloadVM = DownloadPlayViewModel.getDownloadPlay()
-    @StateObject var playerViewModel = PlayerTestViewModel()
+    @StateObject var playerViewModel = PlayerTestViewModel.getPlayer()
     @StateObject var mediaState = MediaPlayerState()
     
     init() {

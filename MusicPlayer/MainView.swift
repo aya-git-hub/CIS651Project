@@ -43,7 +43,7 @@ struct MainView: View {
                         VStack {
                             Image(systemName: "music.note")
                                 .font(.system(size: 28))
-                            Text("Tone")
+                            Text("P")
                                 .font(.caption)
                         }
                         .padding()
@@ -52,7 +52,7 @@ struct MainView: View {
                         VStack {
                             Image(systemName: "music.note")
                                 .font(.system(size: 28))
-                            Text("Play")
+                            Text("L")
                                 .font(.caption)
                         }
                         .padding()
@@ -63,7 +63,7 @@ struct MainView: View {
                         VStack {
                             Image(systemName: "mic.fill")
                                 .font(.system(size: 28))
-                            Text("Record")
+                            Text("M")
                                 .font(.caption)
                         }
                         .padding()
@@ -73,7 +73,7 @@ struct MainView: View {
                         VStack {
                             Image(systemName: "arrow.down.circle.fill")
                                 .font(.system(size: 28))
-                            Text("Download")
+                            Text("D")
                                 .font(.caption)
                         }
                         .padding()

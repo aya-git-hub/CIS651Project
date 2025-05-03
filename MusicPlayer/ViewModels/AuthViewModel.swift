@@ -87,21 +87,21 @@ class AuthViewModel: ObservableObject {
                 self.errorMessage = "Login failed, please try again later"
             }
 
-            print("❌ Login failed：\(error.localizedDescription)")
+            print("❌ Login failed: \(error.localizedDescription)")
         }
     }
 
 
 
     func register(email: String, password: String, confirmPassword: String, name: String, birthday: String) async {
-        // 1. 检查是否为空
+        // 1. Check if fields are empty
         guard !email.isEmpty, !password.isEmpty, !confirmPassword.isEmpty, !name.isEmpty, !birthday.isEmpty else {
             self.errorMessage = "All fields cannot be empty"
             self.registrationSuccess = false
             return
         }
 
-        // 2. 邮箱格式验证
+        // 2. Email format validation
         let emailRegex = #"^\S+@\S+\.\S+$"#
         guard email.range(of: emailRegex, options: .regularExpression) != nil else {
             self.errorMessage = "Please enter a valid email address"
@@ -109,21 +109,21 @@ class AuthViewModel: ObservableObject {
             return
         }
 
-        // 3. 密码一致性验证
+        // 3. Password consistency validation
         guard password == confirmPassword else {
             self.errorMessage = "The passwords you entered do not match"
             self.registrationSuccess = false
             return
         }
 
-        // 4. 密码强度
+        // 4. Password strength
         guard password.count >= 6 else {
             self.errorMessage = "The password must be at least 6 characters long"
             self.registrationSuccess = false
             return
         }
 
-        // 5. 生日格式验证
+        // 5. Birthday format validation
         let formatter = DateFormatter()
         formatter.dateFormat = "MM-dd-yyyy"
         guard let parsedBirthday = formatter.date(from: birthday) else {
@@ -132,25 +132,25 @@ class AuthViewModel: ObservableObject {
             return
         }
 
-        // 6. 生日不能是未来
+        // 6. Birthday cannot be in the future
         guard parsedBirthday <= Date() else {
             self.errorMessage = "Please select a valid birthday"
             self.registrationSuccess = false
             return
         }
 
-        // 7. 邮箱是否已存在（交由 Firebase 处理）
+        // 7. Check if email already exists (handled by Firebase)
 
-        // 如果都通过了再尝试注册
+        // If all validations pass, attempt registration
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.user = nil
             self.isLoggedIn = false
             self.registrationSuccess = true
             self.errorMessage = ""
-            print("✅ Registration successful：\(result.user.email ?? "")")
+            print("✅ Registration successful: \(result.user.email ?? "")")
             
-            // 🔥 Firestore 保存资料
+            // 🔥 Save data to Firestore
             let db = Firestore.firestore()
             let uid = result.user.uid
             try await db.collection("users").document(uid).setData([
@@ -162,7 +162,7 @@ class AuthViewModel: ObservableObject {
             print("✅ User information saved to Firestore")
             
         } catch let error as NSError {
-            print("❌ Registration failed：\(error.localizedDescription)")
+            print("❌ Registration failed: \(error.localizedDescription)")
 
             if let code = AuthErrorCode(rawValue: error.code) {
                 switch code {
@@ -193,7 +193,7 @@ class AuthViewModel: ObservableObject {
             self.user = nil
             self.isLoggedIn = false
         } catch {
-            self.errorMessage = "Logout failed：\(error.localizedDescription)"
+            self.errorMessage = "Logout failed: \(error.localizedDescription)"
         }
     }
     

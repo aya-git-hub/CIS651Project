@@ -1,11 +1,3 @@
-//
-//  MusicRecord.swift
-//  MusicPlayer
-//
-//  Created by Pengfei Liu on 4/22/25.
-//  Copyright © 2025 London App Brewery. All rights reserved.
-//
-
 import Foundation
 import FirebaseFirestore
 
@@ -19,7 +11,7 @@ struct MusicRecord {
     var isFavorite: Bool?
     var localPath: String?
 
-    // ✅ 字典初始化器
+    // Dictionary initializer
     init?(dictionary: [String: Any]) {
         guard let userEmail = dictionary["userEmail"] as? String,
               let musicName = dictionary["musicName"] as? String,
@@ -39,7 +31,7 @@ struct MusicRecord {
         self.localPath = dictionary["localPath"] as? String
     }
 
-    // ✅ 参数构造器 ← 加上这个就不会报错了
+    // Parameter constructor - Adding this will prevent errors
     init(userEmail: String, musicName: String, filePath: String, downloadDate: Timestamp, size: Int64, contentType: String, isFavorite: Bool? = nil, localPath: String? = nil) {
         self.userEmail = userEmail
         self.musicName = musicName

@@ -35,27 +35,27 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
     }
     
     public func loadDownloadedMusic() {
-        // 1) 没登录就清空并退出
+        // 1) Clear and exit if not logged in
         guard let email = Auth.auth().currentUser?.email else {
             self.downloadedItems = []
             return
         }
         
-        // 2) 查询 Firestore
+        // 2) Query Firestore
         Firestore.firestore()
-            .collection("user_musics")             // 你的记录集合
+            .collection("user_musics")             // Your records collection
             .whereField("userEmail", isEqualTo: email)
             .getDocuments { [weak self] snapshot, error in
                 guard let self = self else { return }
                 
                 if let error = error {
                     DispatchQueue.main.async {
-                        self.errorMessage = "加载已下载音乐失败: \(error.localizedDescription)"
+                        self.errorMessage = "Failed to load downloaded music: \(error.localizedDescription)"
                     }
                     return
                 }
                 
-                // 3) 提取 musicName 字段并更新 UI
+                // 3) Extract musicName field and update UI
                 let names = snapshot?.documents.compactMap { $0["musicName"] as? String } ?? []
                 DispatchQueue.main.async {
                     self.downloadedItems = names
@@ -75,7 +75,7 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
                 }
             case .failure(let error):
                 DispatchQueue.main.async {
-                    self?.errorMessage = "获取音乐列表失败: \(error.localizedDescription)"
+                    self?.errorMessage = "Failed to fetch music list: \(error.localizedDescription)"
                 }
             }
         }
@@ -96,17 +96,17 @@ class DownloadPlayViewModel: NSObject, ObservableObject {
             }
         } catch {
             DispatchQueue.main.async {
-                self.errorMessage = "删除失败: \(error.localizedDescription)"
+                self.errorMessage = "Failed to delete: \(error.localizedDescription)"
             }
         }
     }
 }
 
 extension DownloadPlayViewModel: URLSessionDownloadDelegate {
-    // 使用 URLSession 下载并自动写入 Firestore 元数据
+    // Download using URLSession and automatically write Firestore metadata
     func downloadWithMetadata(for musicName: String) {
         guard let user = Auth.auth().currentUser else {
-            self.errorMessage = "用户未登录"
+            self.errorMessage = "User not logged in"
             return
         }
 
@@ -115,8 +115,8 @@ extension DownloadPlayViewModel: URLSessionDownloadDelegate {
 
         storageRef.downloadURL { url, error in
             if let error = error {
-                print("❌ 获取下载链接失败: \(error.localizedDescription)")
-                self.errorMessage = "无法获取下载链接"
+                print("❌ Failed to get download URL: \(error.localizedDescription)")
+                self.errorMessage = "Unable to get download URL"
                 return
             }
 
@@ -126,7 +126,7 @@ extension DownloadPlayViewModel: URLSessionDownloadDelegate {
         }
     }
 
-    // 下载完成后处理：保存本地 + 上传 Firestore + 播放器更新
+    // Handle download completion: save locally + upload to Firestore + update player
     public func urlSession(_ session: URLSession,
                            downloadTask: URLSessionDownloadTask,
                            didFinishDownloadingTo location: URL) {
@@ -158,10 +158,10 @@ extension DownloadPlayViewModel: URLSessionDownloadDelegate {
             FirebaseMusicManager.shared.storeUserMusicData(record: record) { success in
                 DispatchQueue.main.async {
                     if success {
-                        print("✅ Firestore 写入成功")
+                        print("✅ Firestore write successful")
                     } else {
-                        print("❌ Firestore 写入失败")
-                        self.errorMessage = "上传音乐信息失败"
+                        print("❌ Firestore write failed")
+                        self.errorMessage = "Failed to upload music information"
                     }
                 }
             }
@@ -172,14 +172,14 @@ extension DownloadPlayViewModel: URLSessionDownloadDelegate {
             }
 
         } catch {
-            print("⚠️ 保存文件失败: \(error.localizedDescription)")
+            print("⚠️ Failed to save file: \(error.localizedDescription)")
             DispatchQueue.main.async {
-                self.errorMessage = "保存文件失败: \(error.localizedDescription)"
+                self.errorMessage = "Failed to save file: \(error.localizedDescription)"
             }
         }
     }
 
-    // 删除 Firestore 中的 user_musics 音乐记录
+    // Delete music record from user_musics in Firestore
     func deleteMusicFromUserMusics(_ musicName: String) {
         guard let user = Auth.auth().currentUser else { return }
         let db = Firestore.firestore()
@@ -189,7 +189,7 @@ extension DownloadPlayViewModel: URLSessionDownloadDelegate {
             .whereField("musicName", isEqualTo: musicName)
             .getDocuments { snapshot, error in
                 if let error = error {
-                    print("❌ 查找待删除音乐失败: \(error.localizedDescription)")
+                    print("❌ Failed to find music to delete: \(error.localizedDescription)")
                     return
                 }
 
@@ -200,9 +200,9 @@ extension DownloadPlayViewModel: URLSessionDownloadDelegate {
 
                 batch.commit { error in
                     if let error = error {
-                        print("❌ 删除失败: \(error.localizedDescription)")
+                        print("❌ Deletion failed: \(error.localizedDescription)")
                     } else {
-                        print("✅ 删除成功: \(musicName)")
+                        print("✅ Deletion successful: \(musicName)")
                     }
                 }
             }

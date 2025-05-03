@@ -15,7 +15,7 @@ struct SearchBar: View {
             Image(systemName: "magnifyingglass")
                 .foregroundColor(.gray)
             
-            TextField("搜索音乐", text: $text)
+            TextField("Search Music", text: $text)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
             
             if !text.isEmpty {
@@ -146,9 +146,9 @@ struct SearchBar: View {
  //            .navigationTitle("Search Your Music")
  //            .alert(isPresented: $showAlert) {
  //                Alert(
- //                    title: Text("提示"),
+ //                    title: Text("Notice"),
  //                    message: Text(alertMessage),
- //                    dismissButton: .default(Text("确定"))
+ //                    dismissButton: .default(Text("OK"))
  //                )
  //            }
  //        }
@@ -165,7 +165,7 @@ struct SearchBar: View {
  //        if FileManager.default.fileExists(atPath: musicURL.path) {
  //            viewModel.playMusic(musicName)
  //        } else {
- //            alertMessage = "音乐文件不存在，请先下载"
+ //            alertMessage = "Music file does not exist, please download first"
  //            showAlert = true
  //        }
  //    }

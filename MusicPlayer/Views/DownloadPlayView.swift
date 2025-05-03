@@ -14,7 +14,7 @@ struct DownloadPlayView: View {
     var authViewModel = AuthViewModel.getAuth()
     @State private var navigateToLogin = false
     
-    // 根据搜索文本过滤音乐名称
+    // Filter music names based on search text
     var filteredMusicNames: [String] {
         if searchText.isEmpty {
             return viewModel.availableMusicItems
@@ -28,18 +28,18 @@ struct DownloadPlayView: View {
     var body: some View {
         NavigationView {
             ZStack {
-                // 背景色
+                // Background color
                 Color(UIColor.systemBackground)
                     .ignoresSafeArea()
                 
-                // 主内容
+                // Main content
                 VStack(spacing: 16) {
-                    // 搜索栏
+                    // Search bar
                     SearchBar(text: $searchText)
                         .padding(.horizontal)
                         .padding(.top, 8)
                     
-                    // 可下载音乐列表
+                    // Downloadable music list
                     ScrollView {
                         LazyVStack(spacing: 12) {
                             ForEach(filteredMusicNames, id: \.self) { music in
@@ -55,14 +55,14 @@ struct DownloadPlayView: View {
                                     playAction: {
                                         if viewModel.downloadedItems.contains(music) {
                                             if viewModel.currentPlayingMusic == music {
-                                                // 如果当前正在播放这首音乐，则停止播放
+                                                // If this music is currently playing, stop it
                                                 playerViewModel.stop()
                                             } else {
-                                                // 否则开始播放这首音乐
+                                                // Otherwise start playing this music
                                                 playerViewModel.playDownloadedMusic(music)
                                             }
                                         } else {
-                                            alertMessage = "请先下载音乐"
+                                            alertMessage = "Please download the music first"
                                             showAlert = true
                                         }
                                     }*/
@@ -84,12 +84,12 @@ struct DownloadPlayView: View {
                 }
                 .padding(.bottom, playerViewModel.currentMusicIndex >= 0 ? 80 : 16)
                 
-                // 悬浮可拖拽聊天按钮
+                // Floating draggable chat button
                 DraggableChatButton {
                     showChatView = true
                 }
                 
-                // 迷你播放器
+                // Mini player
                 if playerViewModel.currentMusicIndex >= 0 {
                     VStack {
                         Spacer()
@@ -105,19 +105,13 @@ struct DownloadPlayView: View {
             }
             .alert(isPresented: $showAlert) {
                 Alert(
-                    title: Text("提示"),
+                    title: Text("Notice"),
                     message: Text(alertMessage),
-                    dismissButton: .default(Text("确定"))
+                    dismissButton: .default(Text("OK"))
                 )
             }
         }
         .navigationTitle("Search Your Music")
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                ProfileMenuView()
-                    .environmentObject(authViewModel)
-            }
-        }
         .sheet(isPresented: $showChatView) {
             AiChatView()
         }

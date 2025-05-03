@@ -29,7 +29,7 @@ struct PlayerControlView: View {
             }
             
             VStack(alignment: .leading) {
-                Text("正在播放")
+                Text("Now Playing")
                     .font(.caption)
                     .foregroundColor(.gray)
                 Text(viewModel.currentMusicName)

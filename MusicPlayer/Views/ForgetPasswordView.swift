@@ -28,7 +28,7 @@ struct ForgetPasswordView: View {
 
                 VStack {
                     VStack(spacing: 40) {
-                        // 顶部背景与标题
+                        // Top background and title
                         ZStack {
                             Ellipse()
                                 .frame(width: 458, height: 420)
@@ -46,7 +46,7 @@ struct ForgetPasswordView: View {
                                 .padding(.top, 100)
                         }
 
-                        // 输入框区域
+                        // Input fields area
                         VStack(spacing: 20) {
                             CustomTextField(
                                 placeholder: "Email",
@@ -57,22 +57,22 @@ struct ForgetPasswordView: View {
 
                             BirthdayInputField(birthdayText: $birthday)
 
-                            // 错误提示
+                            // Error message
                             if showError {
                                 Text(errorMessage)
                                     .foregroundColor(.red)
                                     .padding(.top, 4)
                             }
 
-                            // 结果展示
+                            // Result display
                             if let password = recoveredPassword {
-                                Text("✅ 你的密码是：\(password)")
+                                Text("✅ Your password is: \(password)")
                                     .foregroundColor(.green)
                                     .fontWeight(.bold)
                                     .padding(.top, 4)
                             }
 
-                            // 找回按钮
+                            // Recover button
                             if isLoading {
                                 ProgressView()
                                     .progressViewStyle(CircularProgressViewStyle(tint: .white))
@@ -92,7 +92,7 @@ struct ForgetPasswordView: View {
                         }
                         .padding(.horizontal, 20)
 
-                        // 返回登录按钮
+                        // Return to login button
                         HStack {
                             Text("Remember your password?")
                                 .fontWeight(.bold)
@@ -120,7 +120,7 @@ struct ForgetPasswordView: View {
         .navigationBarHidden(true)
     }
 
-    // MARK: 找回逻辑
+    // MARK: Recovery logic
     func handleRecover() async {
         errorMessage = ""
         recoveredPassword = nil
@@ -128,7 +128,7 @@ struct ForgetPasswordView: View {
         isLoading = true
 
         guard !email.isEmpty, !birthday.isEmpty else {
-            errorMessage = "请输入邮箱和生日"
+            errorMessage = "Please enter email and birthday"
             showError = true
             isLoading = false
             return
@@ -145,15 +145,15 @@ struct ForgetPasswordView: View {
                 if let password = doc.data()["plainPassword"] as? String {
                     recoveredPassword = password
                 } else {
-                    errorMessage = "没有找到密码字段"
+                    errorMessage = "Password field not found"
                     showError = true
                 }
             } else {
-                errorMessage = "没有找到匹配的用户"
+                errorMessage = "No matching user found"
                 showError = true
             }
         } catch {
-            errorMessage = "出错：\(error.localizedDescription)"
+            errorMessage = "Error: \(error.localizedDescription)"
             showError = true
         }
 

@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// 播放器测试视图
-/// 用于：测试音乐播放功能
+/// Player test view
+/// Used for: Testing music playback functionality
 struct PlayerTestView: View {
     @ObservedObject var viewModel: PlayerTestViewModel
     

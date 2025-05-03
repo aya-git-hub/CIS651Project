@@ -37,7 +37,7 @@ struct CustomTextField: View {
                         .padding(.leading, 12)
                         .font(.system(size: 20))
                         .frame(height: 45)
-                        .textContentType(.oneTimeCode) // ✅ 防止强密码建议
+                        .textContentType(.oneTimeCode) // ✅ Prevent strong password suggestions
                         .disableAutocorrection(true)
                         .textInputAutocapitalization(.never)
                     
@@ -60,7 +60,7 @@ struct CustomTextField: View {
                         .foregroundColor(Color(bColor))
                         .textInputAutocapitalization(.never)
                         .disableAutocorrection(true)
-                        .textContentType(.oneTimeCode) // 使用 .oneTimeCode 而不是 .password
+                        .textContentType(.oneTimeCode) // Use .oneTimeCode instead of .password
                         .privacySensitive(true)
           
                 }

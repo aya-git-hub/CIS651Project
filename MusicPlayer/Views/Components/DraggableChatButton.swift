@@ -3,8 +3,8 @@ import SwiftUI
 struct DraggableChatButton: View {
     private let bottomOffset: CGFloat = 80
     private let buttonSize: CGFloat = 60
-    private let minYLimit: CGFloat = 30   // 设定的上界
-    private let maxYLimit: CGFloat = 540  // 设定的下界
+    private let minYLimit: CGFloat = 30   // Set upper bound
+    private let maxYLimit: CGFloat = 540  // Set lower bound
 
     @State private var position: CGPoint = .init(x: 363, y: 540)
     @GestureState private var dragOffset: CGSize = .zero
@@ -37,13 +37,13 @@ struct DraggableChatButton: View {
                 .updating($dragOffset) { value, state, _ in
                     if case .second(true, let drag?) = value {
                         state = drag.translation
-                        // 实时打印拖动中的坐标
+                        // Print coordinates during dragging
                         let half = buttonSize / 2
                         let currentX = position.x + drag.translation.width
                         let currentY = position.y + drag.translation.height
                         let limitedX = min(max(half, currentX), screenSize.width - half)
                         let limitedY = min(max(half, currentY), screenSize.height - half)
-                        //print("拖动中坐标: (\(limitedX), \(limitedY))")
+                        //print("Dragging coordinates: (\(limitedX), \(limitedY))")
                     }
                 }
                 .onEnded { value in
@@ -56,7 +56,7 @@ struct DraggableChatButton: View {
                         newY = min(max(half, newY), screenSize.height - half)
 
                         if newY >= maxYLimit {
-                            // 超过下界，吸附左右，y固定为maxYLimit
+                            // Exceeded lower bound, snap to left/right, y fixed at maxYLimit
                             let leftDist = abs(newX - half)
                             let rightDist = abs(newX - (screenSize.width - half))
                             if leftDist < rightDist {
@@ -66,7 +66,7 @@ struct DraggableChatButton: View {
                             }
                             newY = maxYLimit
                         } else if newY <= minYLimit {
-                            // 超过上界，吸附左右，y固定为minYLimit
+                            // Exceeded upper bound, snap to left/right, y fixed at minYLimit
                             let leftDist = abs(newX - half)
                             let rightDist = abs(newX - (screenSize.width - half))
                             if leftDist < rightDist {
@@ -76,7 +76,7 @@ struct DraggableChatButton: View {
                             }
                             newY = minYLimit
                         } else {
-                            // 计算到四条边的距离
+                            // Calculate distance to four edges
                             let leftDist = newX - half
                             let rightDist = screenSize.width - (newX + half)
                             let topDist = newY - half
@@ -95,7 +95,7 @@ struct DraggableChatButton: View {
                         }
 
                         position = CGPoint(x: newX, y: newY)
-                        print("吸附后坐标: (\(newX), \(newY))")
+                        print("Snapped coordinates: (\(newX), \(newY))")
                     default:
                         break
                     }

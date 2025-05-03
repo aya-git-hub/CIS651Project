@@ -19,7 +19,7 @@ struct ProfileMenuView: View {
 
     var body: some View {
         Menu {
-            // Profile 选项：打开编辑页面
+            // Profile
             Button("Profile") {
                 showProfileSheet = true
             }

@@ -1,14 +1,14 @@
 import SwiftUI
 
-/// 播放器视图
-/// 用于：显示和控制音乐播放
+/// Player view
+/// Used for: Displaying and controlling music playback
 struct PlayerView: View {
     @ObservedObject var viewModel: PlayerTestViewModel
     @Environment(\.presentationMode) var presentationMode
     
     var body: some View {
         VStack(spacing: 20) {
-            // 返回按钮
+            // Back button
             HStack {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
@@ -23,7 +23,7 @@ struct PlayerView: View {
             
             Spacer()
             
-            // 音乐封面（这里使用系统图标代替）
+            // Music cover (using system icon as placeholder)
             Image(systemName: "music.note")
                 .font(.system(size: 120))
                 .foregroundColor(.blue)
@@ -32,21 +32,21 @@ struct PlayerView: View {
                 .cornerRadius(20)
                 .padding(.bottom, 40)
             
-            // 音乐信息
+            // Music information
             VStack(spacing: 10) {
                 Text(viewModel.currentMusicName)
                     .font(.title)
                     .fontWeight(.bold)
                     .multilineTextAlignment(.center)
                 
-                Text("时长: \(formatTime(viewModel.duration))")
+                Text("Duration: \(formatTime(viewModel.duration))")
                     .font(.subheadline)
                     .foregroundColor(.gray)
             }
             
             Spacer()
             
-            // 进度条
+            // Progress bar
             VStack {
                 Slider(value: Binding(
                     get: { viewModel.progress },
@@ -67,7 +67,7 @@ struct PlayerView: View {
                 .padding(.horizontal)
             }
             
-            // 控制按钮
+            // Control buttons
             HStack(spacing: 40) {
                 Button(action: {
                     viewModel.playPrevious()
@@ -101,9 +101,9 @@ struct PlayerView: View {
         .padding()
     }
     
-    /// 格式化时间显示
-    /// - Parameter time: 时间（秒）
-    /// - Returns: 格式化后的时间字符串
+    /// Format time display
+    /// - Parameter time: Time in seconds
+    /// - Returns: Formatted time string
     private func formatTime(_ time: TimeInterval) -> String {
         let minutes = Int(time) / 60
         let seconds = Int(time) % 60

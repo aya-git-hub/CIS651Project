@@ -14,7 +14,7 @@ struct RecordView: View {
     @StateObject var recordModel = RecordViewModel()
 
     
-    // 按钮：点击播放对应音阶，同时录制状态下保存音阶到数组中
+    // Button: Play corresponding scale when clicked, and save scale to array when in recording state
     func noteButton(note: String, color: Color) -> some View {
         Button(action: {
             toneProcessor.playSound(note: note)
@@ -31,7 +31,7 @@ struct RecordView: View {
     
     var body: some View {
             VStack(spacing: 0) {
-                // 上部：七个音阶按钮
+                // Upper part: Seven scale buttons
                 noteButton(note: "1", color: .red)
                 noteButton(note: "2", color: .orange)
                 noteButton(note: "3", color: .yellow)
@@ -40,11 +40,11 @@ struct RecordView: View {
                 noteButton(note: "6", color: .indigo)
                 noteButton(note: "7", color: .purple)
                 
-                // 下部：三个控制按钮
+                // Lower part: Three control buttons
                 HStack(spacing: 20) {
                     Button(action: {
                         
-                        // 切换录制状态，开始录制时清空之前记录
+                        // Toggle recording state, clear previous records when starting recording
                         self.isRecording.toggle()
                         if self.isRecording {
                             recordModel.recordedNotes.removeAll()
@@ -84,14 +84,6 @@ struct RecordView: View {
             .edgesIgnoringSafeArea(.all)
             .navigationTitle("Record Tones")
             
-            .toolbar {
-                // 右上角个人资料菜单，注入同一个 authViewModel 实例
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    ProfileMenuView()
-                        .environmentObject(authViewModel)
-                        .offset(y: -4)
-                }
-            }
         }
     }
 struct RecordView_Previews: PreviewProvider {

@@ -6,7 +6,7 @@ struct ToneView: View {
     @State private var audioPlayer: AVAudioPlayer?
     let toneProcessor = ToneProcessor()
     
-    /// 根据传入的 note 名称和颜色生成一个按钮
+    /// Generate a button based on the given note name and color
     func noteButton(note: String, color: Color) -> some View {
         Button(action: {
             toneProcessor.playSound(note: note)
@@ -35,7 +35,7 @@ struct ToneView: View {
             }
             .edgesIgnoringSafeArea(.all)
             
-            // 自定义 Back 按钮，位于左上角
+            // Custom Back button, positioned at top-left corner
             Button(action: {
                 presentationMode.wrappedValue.dismiss()
             }) {

@@ -2,41 +2,41 @@ import Foundation
 import AVFoundation
 import Combine
 
-/// AVPlayerService类
-/// 实现了PlayerService协议，使用AVFoundation框架提供音乐播放功能
+/// AVPlayerService class
+/// Implements the PlayerService protocol, providing music playback functionality using AVFoundation framework
 class AVPlayerService: NSObject, PlayerService {
     // MARK: - Properties
     
-    /// AVPlayer实例
-    /// 用于：控制音乐播放
+    /// AVPlayer instance
+    /// Used for: controlling music playback
     private var player: AVPlayer?
     
-    /// 时间观察者
-    /// 用于：监听播放进度变化
+    /// Time observer
+    /// Used for: monitoring playback progress changes
     private var timeObserver: Any?
     
-    /// 播放完成回调
-    /// 用于：处理播放完成事件
+    /// Playback completion callback
+    /// Used for: handling playback completion events
     private var completionHandler: (() -> Void)?
     
-    /// 错误处理回调
-    /// 用于：处理播放错误
+    /// Error handling callback
+    /// Used for: handling playback errors
     private var errorHandler: ((Error) -> Void)?
     
-    /// 播放器状态
-    /// 用于：跟踪播放器当前状态
+    /// Player state
+    /// Used for: tracking current player state
     @Published private(set) var state: PlayerState = .idle
     
-    /// 当前播放时间
-    /// 用于：显示播放进度
+    /// Current playback time
+    /// Used for: displaying playback progress
     @Published private(set) var currentTime: TimeInterval = 0
     
-    /// 音乐总时长
-    /// 用于：显示音乐时长
+    /// Total music duration
+    /// Used for: displaying music duration
     @Published private(set) var duration: TimeInterval = 0
     
-    /// 是否正在播放
-    /// 用于：UI状态显示
+    /// Whether currently playing
+    /// Used for: UI state display
     var isPlaying: Bool {
         if case .playing = state {
             return true
@@ -44,8 +44,8 @@ class AVPlayerService: NSObject, PlayerService {
         return false
     }
     
-    /// 播放进度
-    /// 用于：进度条显示
+    /// Playback progress
+    /// Used for: progress bar display
     var progress: Double {
         guard duration > 0 else { return 0 }
         return currentTime / duration
@@ -53,111 +53,111 @@ class AVPlayerService: NSObject, PlayerService {
     
     // MARK: - Initialization
     
-    /// 初始化方法
-    /// 用于：设置音频会话
+    /// Initialization method
+    /// Used for: setting up audio session
     override init() {
         super.init()
         setupAudioSession()
     }
     
-    /// 析构方法
-    /// 用于：清理资源
+    /// Deinitialization method
+    /// Used for: cleaning up resources
     deinit {
         cleanup()
     }
     
     // MARK: - PlayerService Implementation
     
-    /// 播放音乐
-    /// - Parameter url: 音乐文件URL
-    /// 用于：开始播放新的音乐
+    /// Play music
+    /// - Parameter url: Music file URL
+    /// Used for: starting playback of new music
     func play(url: URL) {
-        // 先清理当前播放器
+        // First clean up current player
         cleanup()
         
-        // 创建新的播放项
+        // Create new player item
         let playerItem = AVPlayerItem(url: url)
         
-        // 创建新的播放器
+        // Create new player
         player = AVPlayer(playerItem: playerItem)
         player?.rate = 1.0
         
-        // 设置观察者
+        // Set up observers
         setupTimeObserver()
         setupPlayerItemObservers(playerItem)
         
-        // 开始播放
+        // Start playback
         player?.play()
         state = .playing
     }
     
-    /// 暂停播放
-    /// 用于：暂停当前播放的音乐
+    /// Pause playback
+    /// Used for: pausing current music playback
     func pause() {
         player?.pause()
         state = .paused
     }
     
-    /// 恢复播放
-    /// 用于：从暂停状态恢复播放
+    /// Resume playback
+    /// Used for: resuming playback from paused state
     func resume() {
         player?.play()
         state = .playing
     }
     
-    /// 停止播放
-    /// 用于：完全停止播放并重置状态
+    /// Stop playback
+    /// Used for: completely stopping playback and resetting state
     func stop() {
         player?.pause()
         player?.seek(to: kCMTimeZero)
         state = .stopped
     }
     
-    /// 跳转到指定时间
-    /// - Parameter time: 目标时间点
-    /// 用于：快进/快退功能
+    /// Seek to specified time
+    /// - Parameter time: Target time point
+    /// Used for: fast forward/rewind functionality
     func seek(to time: TimeInterval) {
         let time = CMTime(seconds: time, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         player?.seek(to: time)
     }
     
-    /// 设置播放速率
-    /// - Parameter rate: 播放速率（0.5-2.0）
-    /// 用于：调整播放速度
+    /// Set playback rate
+    /// - Parameter rate: Playback rate (0.5-2.0)
+    /// Used for: adjusting playback speed
     func setPlaybackRate(_ rate: Float) {
         guard rate >= 0.5 && rate <= 2.0 else { return }
         player?.rate = rate
     }
     
-    /// 设置播放完成回调
-    /// - Parameter handler: 回调闭包
-    /// 用于：处理播放完成事件
+    /// Set playback completion callback
+    /// - Parameter handler: Callback closure
+    /// Used for: handling playback completion events
     func setCompletionHandler(_ handler: @escaping () -> Void) {
         completionHandler = handler
     }
     
-    /// 设置错误处理回调
-    /// - Parameter handler: 回调闭包
-    /// 用于：处理播放错误
+    /// Set error handling callback
+    /// - Parameter handler: Callback closure
+    /// Used for: handling playback errors
     func setErrorHandler(_ handler: @escaping (Error) -> Void) {
         errorHandler = handler
     }
     
-    /// 预加载音乐资源
-    /// - Parameter url: 音乐文件URL
-    /// 用于：提前准备下一首音乐
+    /// Preload music resources
+    /// - Parameter url: Music file URL
+    /// Used for: preparing next music in advance
     func prepareToPlay(url: URL) {
-        // 创建新的播放项
+        // Create new player item
         let playerItem = AVPlayerItem(url: url)
         
-        // 设置预加载参数
-        playerItem.preferredForwardBufferDuration = 10 // 预加载10秒
+        // Set preload parameters
+        playerItem.preferredForwardBufferDuration = 10 // Preload 10 seconds
         playerItem.canUseNetworkResourcesForLiveStreamingWhilePaused = true
         
-        // 创建预加载播放器
+        // Create preload player
         let preloadPlayer = AVPlayer(playerItem: playerItem)
         
-        // 设置音频会话
+        // Set up audio session
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayback, mode: AVAudioSessionModeDefault)
             try AVAudioSession.sharedInstance().setActive(true)
@@ -165,14 +165,14 @@ class AVPlayerService: NSObject, PlayerService {
             errorHandler?(error)
         }
         
-        // 不设置时间观察者，因为这只是预加载
-        // 不替换当前播放器，因为当前音乐还在播放
+        // Don't set up time observer as this is just preloading
+        // Don't replace current player as current music is still playing
     }
     
     // MARK: - Private Methods
     
-    /// 设置音频会话
-    /// 用于：配置音频播放环境
+    /// Set up audio session
+    /// Used for: configuring audio playback environment
     private func setupAudioSession() {
         do {
             let audioSession = AVAudioSession.sharedInstance()
@@ -185,16 +185,16 @@ class AVPlayerService: NSObject, PlayerService {
         }
     }
     
-    /// 设置时间观察者
-    /// 用于：监听播放进度变化
+    /// Set up time observer
+    /// Used for: monitoring playback progress changes
     private func setupTimeObserver() {
-        // 确保没有旧的时间观察者
+        // Ensure no old time observer exists
         if let timeObserver = timeObserver {
             player?.removeTimeObserver(timeObserver)
             self.timeObserver = nil
         }
         
-        // 创建新的时间观察者
+        // Create new time observer
         let interval = CMTime(seconds: 0.5, preferredTimescale: CMTimeScale(NSEC_PER_SEC))
         timeObserver = player?.addPeriodicTimeObserver(forInterval: interval, queue: .main) { [weak self] time in
             guard let self = self else { return }
@@ -206,9 +206,9 @@ class AVPlayerService: NSObject, PlayerService {
         }
     }
     
-    /// 设置播放项观察者
-    /// - Parameter playerItem: 要观察的播放项
-    /// 用于：监听播放状态变化
+    /// Set up player item observers
+    /// - Parameter playerItem: Player item to observe
+    /// Used for: monitoring playback state changes
     private func setupPlayerItemObservers(_ playerItem: AVPlayerItem) {
         NotificationCenter.default.addObserver(
             self,
@@ -234,16 +234,16 @@ class AVPlayerService: NSObject, PlayerService {
         }
     }
     
-    /// 清理资源
-    /// 用于：释放播放器资源
+    /// Clean up resources
+    /// Used for: releasing player resources
     private func cleanup() {
-        // 先移除时间观察者
+        // First remove time observer
         if let timeObserver = timeObserver {
             player?.removeTimeObserver(timeObserver)
             self.timeObserver = nil
         }
         
-        // 停止播放并重置状态
+        // Stop playback and reset state
         player?.pause()
         player = nil
         state = .idle
@@ -253,8 +253,8 @@ class AVPlayerService: NSObject, PlayerService {
     
     // MARK: - Notification Handlers
     
-    /// 播放完成处理
-    /// 用于：处理音乐播放完成事件
+    /// Playback completion handler
+    /// Used for: handling music playback completion events
     @objc private func playerItemDidPlayToEndTime() {
         state = .stopped
         completionHandler?()

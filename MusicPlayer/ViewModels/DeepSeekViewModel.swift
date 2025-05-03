@@ -25,9 +25,9 @@ class DeepSeekViewModel: ObservableObject {
        }
     private let modelEndpoint = "https://api.deepseek.com/v1/chat/completions"
     private let maxRetries = 3
-    private let retryDelay: UInt64 = 2_000_000_000 // 2 秒
+    private let retryDelay: UInt64 = 2_000_000_000 // 2 seconds
 
-    /// 发送一条消息到 DeepSeek Chat 模型
+    /// Send a message to the DeepSeek Chat model
     func sendMessage(_ text: String) async {
         await MainActor.run {
             errorMessage = nil
@@ -39,16 +39,16 @@ class DeepSeekViewModel: ObservableObject {
             do {
                 guard let url = URL(string: modelEndpoint) else {
                     throw NSError(domain: "DeepSeek", code: -1,
-                                userInfo: [NSLocalizedDescriptionKey: "无效的模型地址"])
+                                userInfo: [NSLocalizedDescriptionKey: "Invalid model endpoint"])
                 }
 
-                // 构造请求
+                // Construct request
                 var request = URLRequest(url: url)
                 request.httpMethod = "POST"
                 request.setValue("Bearer \(apiKey)", forHTTPHeaderField: "Authorization")
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
 
-                // 构造消息历史
+                // Construct message history
                 let messageHistory = messages.map { message in
                     [
                         "role": message.isUser ? "user" : "assistant",
@@ -56,7 +56,7 @@ class DeepSeekViewModel: ObservableObject {
                     ]
                 }
 
-                // 构造请求体
+                // Construct request body
                 let body: [String: Any] = [
                     "model": "deepseek-chat",
                     "messages": messageHistory,
@@ -68,10 +68,10 @@ class DeepSeekViewModel: ObservableObject {
                 
                 request.httpBody = try JSONSerialization.data(withJSONObject: body)
 
-                // 发起请求
+                // Send request
                 let (data, response) = try await URLSession.shared.data(for: request)
 
-                // 调试：打印原始响应
+                // Debug: print raw response
                 if let raw = String(data: data, encoding: .utf8) {
                     print("🌐 DeepSeek raw response: \(raw)")
                 }
@@ -88,7 +88,7 @@ class DeepSeekViewModel: ObservableObject {
                     guard let reply = response.choices.first?.message.content.trimmingCharacters(in: .whitespacesAndNewlines),
                           !reply.isEmpty else {
                         throw NSError(domain: "DeepSeek", code: -1,
-                                    userInfo: [NSLocalizedDescriptionKey: "未解析到有效回复"])
+                                    userInfo: [NSLocalizedDescriptionKey: "No valid response parsed"])
                     }
 
                     await MainActor.run {
@@ -99,27 +99,27 @@ class DeepSeekViewModel: ObservableObject {
 
                 case 401:
                     throw NSError(domain: "DeepSeek", code: 401,
-                                userInfo: [NSLocalizedDescriptionKey: "API Key 无效，请检查您的 API Key"])
+                                userInfo: [NSLocalizedDescriptionKey: "Invalid API Key, please check your API Key"])
                 case 429:
                     throw NSError(domain: "DeepSeek", code: 429,
-                                userInfo: [NSLocalizedDescriptionKey: "请求过于频繁，请稍后再试"])
+                                userInfo: [NSLocalizedDescriptionKey: "Too many requests, please try again later"])
                 case 503:
                     if attempt < maxRetries {
                         try await Task.sleep(nanoseconds: retryDelay)
                         continue
                     }
                     throw NSError(domain: "DeepSeek", code: 503,
-                                userInfo: [NSLocalizedDescriptionKey: "服务器暂时不可用，请稍后再试"])
+                                userInfo: [NSLocalizedDescriptionKey: "Server temporarily unavailable, please try again later"])
                 default:
                     let bodyStr = String(data: data, encoding: .utf8) ?? ""
                     throw NSError(domain: "DeepSeek", code: http.statusCode,
-                                userInfo: [NSLocalizedDescriptionKey: "HTTP \(http.statusCode)：\(bodyStr)"])
+                                userInfo: [NSLocalizedDescriptionKey: "HTTP \(http.statusCode): \(bodyStr)"])
                 }
             } catch {
-                // 最后一次重试失败时反馈错误
+                // Report error on last retry failure
                 if attempt == maxRetries {
                     await MainActor.run {
-                        errorMessage = "请求失败：\(error.localizedDescription)"
+                        errorMessage = "Request failed: \(error.localizedDescription)"
                         isLoading = false
                     }
                 }
@@ -127,7 +127,7 @@ class DeepSeekViewModel: ObservableObject {
         }
     }
 
-    /// 用于解析 DeepSeek 返回的 JSON
+    /// Used for parsing DeepSeek's JSON response
     private struct DeepSeekResponse: Codable {
         let choices: [Choice]
         

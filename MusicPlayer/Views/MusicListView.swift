@@ -1,7 +1,7 @@
 import SwiftUI
 
-/// 音乐列表视图
-/// 用于：显示可播放的音乐列表
+/// Music list view
+/// Used for: Displaying playable music list
 struct MusicListView: View {
     @ObservedObject var viewModel: PlayerTestViewModel
     @State private var showPlayer = false
@@ -9,17 +9,17 @@ struct MusicListView: View {
     var body: some View {
         NavigationView {
             ZStack(alignment: .bottom) {
-                // 音乐列表
+                // Music list
                 List(viewModel.musicList, id: \.self) { musicURL in
                     Button(action: {
-                        // 直接通过 ViewModel 播放选中的音乐
+                        // Play selected music directly through ViewModel
                         viewModel.play(url: musicURL)
                     }) {
                         HStack {
                             VStack(alignment: .leading) {
                                 Text(musicURL.lastPathComponent)
                                     .font(.headline)
-                                Text("时长: \(formatTime(viewModel.duration))")
+                                Text("Duration: \(formatTime(viewModel.duration))")
                                     .font(.subheadline)
                                     .foregroundColor(.gray)
                             }
@@ -31,9 +31,9 @@ struct MusicListView: View {
                         }
                     }
                 }
-                .navigationTitle("音乐列表")
+                .navigationTitle("Music List")
                 
-                // 迷你播放器
+                // Mini player
                 if viewModel.currentMusicIndex >= 0 {
                     MiniPlayerView(viewModel: viewModel)
                         .transition(.move(edge: .bottom))
@@ -42,9 +42,9 @@ struct MusicListView: View {
         }
     }
     
-    /// 格式化时间显示
-    /// - Parameter time: 时间（秒）
-    /// - Returns: 格式化后的时间字符串
+    /// Format time display
+    /// - Parameter time: Time in seconds
+    /// - Returns: Formatted time string
     private func formatTime(_ time: TimeInterval) -> String {
         let minutes = Int(time) / 60
         let seconds = Int(time) % 60

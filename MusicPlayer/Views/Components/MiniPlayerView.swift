@@ -1,14 +1,14 @@
 import SwiftUI
 
-/// 迷你播放器视图
-/// 用于：在底部显示当前播放的音乐和控制按钮
+/// Mini player view
+/// Used for: displaying currently playing music and control buttons at the bottom
 struct MiniPlayerView: View {
     @ObservedObject var viewModel: PlayerTestViewModel
     @State private var showFullPlayer = false
     
     var body: some View {
         VStack(spacing: 0) {
-            // 进度条
+            // Progress bar
             GeometryReader { geometry in
                 Rectangle()
                     .fill(Color.blue)
@@ -16,9 +16,9 @@ struct MiniPlayerView: View {
             }
             .frame(height: 2)
             
-            // 播放器内容
+            // Player content
             HStack(spacing: 15) {
-                // 音乐封面（这里使用系统图标代替）
+                // Music cover (using system icon as placeholder)
                 Image(systemName: "music.note")
                     .font(.system(size: 30))
                     .foregroundColor(.blue)
@@ -26,7 +26,7 @@ struct MiniPlayerView: View {
                     .background(Color.gray.opacity(0.2))
                     .cornerRadius(8)
                 
-                // 音乐信息
+                // Music information
                 VStack(alignment: .leading, spacing: 4) {
                     Text(viewModel.currentMusicName)
                         .font(.headline)
@@ -38,7 +38,7 @@ struct MiniPlayerView: View {
                 
                 Spacer()
                 
-                // 控制按钮
+                // Control buttons
                 HStack(spacing: 20) {
                     Button(action: {
                         viewModel.playPrevious()
@@ -80,7 +80,7 @@ struct MiniPlayerView: View {
         }
     }
     
-    /// 格式化时间显示
+    /// Format time display
     private func formatTime(_ time: TimeInterval) -> String {
         let minutes = Int(time) / 60
         let seconds = Int(time) % 60

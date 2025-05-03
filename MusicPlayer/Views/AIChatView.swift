@@ -1,4 +1,3 @@
-
 import SwiftUI
 class ChatViewModelSingleton: ObservableObject {
     static let shared = DeepSeekViewModel()
@@ -18,7 +17,7 @@ struct AiChatView: View {
         
         var body: some View {
             VStack {
-                // 导航栏
+                // Navigation bar
                 HStack {
                     Button(action: { dismiss() }) {
                         Image(systemName: "xmark.circle.fill")
@@ -33,7 +32,7 @@ struct AiChatView: View {
                 }
                 .padding()
                 
-                // 消息列表
+                // Message list
                 ScrollView {
                     LazyVStack(spacing: 12) {
                         ForEach(chatViewModel.messages) { message in
@@ -52,7 +51,7 @@ struct AiChatView: View {
                     .padding()
                 }
                 
-                // 错误信息
+                // Error message
                 if let error = chatViewModel.errorMessage {
                     Text(error)
                         .foregroundColor(.red)
@@ -60,7 +59,7 @@ struct AiChatView: View {
                         .multilineTextAlignment(.center)
                 }
                 
-                // 输入区域
+                // Input area
                 HStack {
                     TextField("Input your message...", text: $messageText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())

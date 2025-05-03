@@ -32,7 +32,7 @@ struct UserProfileView: View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 24) {
-                    // MARK: 头像选择器
+                    // MARK: Profile Image Picker
                     Image("avatar2")
                          .resizable()
                          .scaledToFill()
@@ -42,7 +42,7 @@ struct UserProfileView: View {
 
                     
 
-                    // MARK: 用户信息字段
+                    // MARK: User Information Fields
                     Group {
                         TextField("Name", text: $name)
                             .autocapitalization(.words)
@@ -56,14 +56,14 @@ struct UserProfileView: View {
                     .background(Color(.systemGray6))
                     .cornerRadius(10)
 
-                    // MARK: 错误信息
+                    // MARK: Error Message
                     if !errorMessage.isEmpty {
                         Text(errorMessage)
                             .foregroundColor(.red)
                             .font(.caption)
                     }
 
-                    // MARK: 保存按钮
+                    // MARK: Save Button
                     Button {
                         Task { await saveProfile() }
                     } label: {
@@ -109,7 +109,7 @@ struct UserProfileView: View {
         }
     }
 
-    // MARK: 加载当前用户信息
+    // MARK: Load Current User Profile
     private func loadProfile() {
         let profile = authViewModel.currentUserProfile
         self.name      = profile?.name     ?? ""
@@ -118,7 +118,7 @@ struct UserProfileView: View {
         self.imageURLString = profile?.profileImageURL
     }
 
-    // MARK: 保存信息到 Firestore
+    // MARK: Save Information to Firestore
     private func saveProfile() async {
         guard let uid = authViewModel.user?.uid else { return }
         isSaving = true
@@ -129,7 +129,7 @@ struct UserProfileView: View {
             "birthday": birthday
         ]
 
-        // 如果用户选了新头像
+        // If user selected a new profile image
         if let uiImage = profileImage {
             do {
                 let url = try await uploadImage(uiImage, for: uid)
@@ -158,7 +158,6 @@ struct UserProfileView: View {
 
 
     func uploadImage(_ image: UIImage, for uid: String) async throws -> URL {
-        // 全局函数调用，前面不要加 image.
         guard let imageData = UIImageJPEGRepresentation(image, 0.8) else {
             throw URLError(.cannotCreateFile)
         }

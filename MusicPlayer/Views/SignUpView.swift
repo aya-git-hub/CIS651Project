@@ -47,7 +47,7 @@ struct SignUpView: View {
                         }
 
                         VStack(spacing: 20){
-                            // 输入框区域
+                            // Input fields area
                             CustomTextField(
                                 placeholder: "Name",
                                 imageName: "person",
@@ -78,14 +78,14 @@ struct SignUpView: View {
                                 tOpacity: 1.0,
                                 value: $confirmPassword)
 
-                            // 错误提示
+                            // Error message
                             if showError {
                                 Text(errorMessage)
                                     .foregroundColor(.red)
                                     .padding(.top, 4)
                             }
 
-                            // 注册按钮
+                            // Sign up button
                             VStack(alignment: .trailing) {
                                 if isLoading {
                                     ProgressView()
@@ -140,7 +140,7 @@ struct SignUpView: View {
 
                             Spacer()
 
-                            // 已有账号 - 返回按钮
+                            // Existing account - Back button
                             HStack {
                                 Text("Already have an account?")
                                     .fontWeight(.bold)
@@ -168,7 +168,7 @@ struct SignUpView: View {
             }
         }
         .navigationBarHidden(true)
-        .alert("注册成功！", isPresented: $showSuccessAlert) {
+        .alert("Registration successful!", isPresented: $showSuccessAlert) {
             Button("OK", role: .cancel) { }
         }
     }

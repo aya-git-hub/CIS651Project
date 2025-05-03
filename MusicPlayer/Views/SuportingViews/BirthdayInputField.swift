@@ -12,7 +12,7 @@ struct BirthdayInputField: View {
     @State private var selectedDate = Date()
     @State private var showPicker = false
 
-    // 估算一下你的弹窗高度
+    // Estimate the height of your popup
     private let pickerHeight: CGFloat = 360
 
     var body: some View {
@@ -50,9 +50,9 @@ struct BirthdayInputField: View {
                 .background(Color.white.opacity(0.6))
                 .padding(.horizontal, 20)
         }
-        // ▶️ 关键：当弹出时，把视图底部向下撑开一段距离
+        // ▶️ Key: When popup appears, expand the view bottom by a certain distance
         .padding(.bottom, showPicker ? pickerHeight : 0)
-        // ▶️ 关键：声明整个区域都可点（包含下方那块透明 padding 区域）
+        // ▶️ Key: Declare the entire area as clickable (including the transparent padding area below)
         .contentShape(Rectangle())
         .overlay(
             Group {

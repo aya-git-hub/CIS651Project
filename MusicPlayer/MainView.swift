@@ -1,4 +1,3 @@
-
 //  MainView.swift
 //  Xylophone
 //
@@ -10,13 +9,15 @@ import SwiftUI;
 struct MainView: View {
     @EnvironmentObject var mediaPlayerState: MediaPlayerState
     @ObservedObject var viewModel: PlayerTestViewModel
+    var authViewModel = AuthViewModel.getAuth()
+    
     var body: some View {
         NavigationView {
             VStack {
-                Spacer() // 让按钮固定在底部
+                Spacer() // Fix buttons at the bottom
                 
-                // 添加自定义专辑封面图片
-                Image("album_cover") // 这里应该是你放在Assets中的图片名称
+                // Add custom album cover image
+                Image("album_cover") // This should be the name of your image in Assets
                     .resizable()
                     .scaledToFit()
                     .frame(width: 400, height: 400)
@@ -26,7 +27,7 @@ struct MainView: View {
                                
                 Spacer()
                 
-                // 迷你播放器
+                // Mini player
                 if viewModel.currentMusicIndex >= 0 {
                     MiniPlayerView(viewModel: viewModel)
                         .transition(.move(edge: .bottom))
@@ -80,11 +81,18 @@ struct MainView: View {
                 }
                 .padding(.vertical, 10)
                 .frame(maxWidth: .infinity)
-                .background(Color.gray.opacity(0.2)) // 设置底部背景颜色
+                .background(Color.gray.opacity(0.2)) // Set bottom background color
                 .cornerRadius(15)
                 .shadow(radius: 5)
             }
-            .ignoresSafeArea(edges: .bottom) // 让底部栏贴合屏幕底部
+            .ignoresSafeArea(edges: .bottom) // Make bottom bar fit screen bottom
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    ProfileMenuView()
+                        .environmentObject(authViewModel)
+                }
+            }
         }
+
     }
 }

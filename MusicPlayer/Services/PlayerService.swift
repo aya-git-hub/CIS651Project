@@ -1,89 +1,89 @@
 import Foundation
 import AVFoundation
 
-/// 播放器服务协议
-/// 定义了音乐播放器的核心功能接口
+/// Player service protocol
+/// Defines the core functionality interface for music player
 protocol PlayerService {
-    // MARK: - 播放控制
+    // MARK: - Playback Control
     
-    /// 播放指定URL的音乐
-    /// - Parameter url: 音乐文件的URL
-    /// 用于：开始播放新的音乐文件
+    /// Play music from specified URL
+    /// - Parameter url: URL of the music file
+    /// Used for: starting playback of a new music file
     func play(url: URL)
     
-    /// 暂停当前播放
-    /// 用于：暂停正在播放的音乐
+    /// Pause current playback
+    /// Used for: pausing currently playing music
     func pause()
     
-    /// 恢复播放
-    /// 用于：从暂停状态恢复播放
+    /// Resume playback
+    /// Used for: resuming playback from paused state
     func resume()
     
-    /// 停止播放
-    /// 用于：完全停止播放，重置播放状态
+    /// Stop playback
+    /// Used for: completely stopping playback and resetting playback state
     func stop()
     
-    /// 跳转到指定时间点
-    /// - Parameter time: 要跳转的时间点
-    /// 用于：快进/快退功能
+    /// Seek to specified time point
+    /// - Parameter time: Time point to seek to
+    /// Used for: fast forward/rewind functionality
     func seek(to time: TimeInterval)
     
-    /// 设置播放速率
-    /// - Parameter rate: 播放速率（0.5-2.0）
-    /// 用于：调整播放速度
+    /// Set playback rate
+    /// - Parameter rate: Playback rate (0.5-2.0)
+    /// Used for: adjusting playback speed
     func setPlaybackRate(_ rate: Float)
     
-    /// 预加载音乐资源
-    /// - Parameter url: 要预加载的音乐URL
-    /// 用于：提前准备下一首音乐，优化播放体验
+    /// Preload music resources
+    /// - Parameter url: URL of music to preload
+    /// Used for: preparing next music in advance to optimize playback experience
     func prepareToPlay(url: URL)
     
-    // MARK: - 状态获取
+    // MARK: - State Access
     
-    /// 是否正在播放
-    /// 用于：UI状态显示和播放控制
+    /// Whether currently playing
+    /// Used for: UI state display and playback control
     var isPlaying: Bool { get }
     
-    /// 当前播放时间
-    /// 用于：显示播放进度
+    /// Current playback time
+    /// Used for: displaying playback progress
     var currentTime: TimeInterval { get }
     
-    /// 音乐总时长
-    /// 用于：显示音乐时长和进度计算
+    /// Total music duration
+    /// Used for: displaying music duration and progress calculation
     var duration: TimeInterval { get }
     
-    /// 播放进度（0-1）
-    /// 用于：进度条显示
+    /// Playback progress (0-1)
+    /// Used for: progress bar display
     var progress: Double { get }
     
-    // MARK: - 回调设置
+    // MARK: - Callback Setup
     
-    /// 设置播放完成回调
-    /// - Parameter handler: 播放完成时执行的闭包
-    /// 用于：处理播放完成后的逻辑（如自动播放下一首）
+    /// Set playback completion callback
+    /// - Parameter handler: Closure to execute when playback completes
+    /// Used for: handling post-playback logic (e.g., auto-playing next track)
     func setCompletionHandler(_ handler: @escaping () -> Void)
     
-    /// 设置错误处理回调
-    /// - Parameter handler: 发生错误时执行的闭包
-    /// 用于：处理播放过程中的错误
+    /// Set error handling callback
+    /// - Parameter handler: Closure to execute when an error occurs
+    /// Used for: handling errors during playback
     func setErrorHandler(_ handler: @escaping (Error) -> Void)
 }
 
-/// 播放器状态枚举
-/// 用于：表示播放器的当前状态
+/// Player state enumeration
+/// Used for: representing current state of the player
 enum PlayerState {
-    case idle      // 空闲状态
-    case playing   // 正在播放
-    case paused    // 已暂停
-    case stopped   // 已停止
-    case error(Error) // 发生错误
+    case idle      // Idle state
+    case playing   // Currently playing
+    case paused    // Paused
+    case stopped   // Stopped
+    case error(Error) // Error occurred
 }
 
-/// 播放器错误枚举
-/// 用于：定义播放过程中可能发生的错误类型
+/// Player error enumeration
+/// Used for: defining possible error types during playback
 enum PlayerError: Error {
-    case invalidURL      // URL无效
-    case loadFailed      // 加载失败
-    case playbackFailed  // 播放失败
-    case unknown         // 未知错误
+    case invalidURL      // Invalid URL
+    case loadFailed      // Load failed
+    case playbackFailed  // Playback failed
+    case unknown         // Unknown error
 } 

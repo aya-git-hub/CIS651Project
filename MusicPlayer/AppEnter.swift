@@ -27,12 +27,12 @@ struct LoginApp: App {
             if authViewModel.isLoggedIn {
                 MainView(viewModel: playerViewModel)
                     .environmentObject(authViewModel)
-                    .environmentObject(downloadVM) // ✅ 注入
+                    .environmentObject(downloadVM)
                     .environmentObject(mediaState)
             } else {
                 LogInView(viewModel: playerViewModel)
                     .environmentObject(authViewModel)
-                    .environmentObject(downloadVM) // ✅ 注入
+                    .environmentObject(downloadVM)
                     .environmentObject(mediaState)
             }
         }

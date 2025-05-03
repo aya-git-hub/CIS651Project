@@ -10,13 +10,13 @@ import SwiftUI
 struct LogInView: View {
     @StateObject var authViewModel = AuthViewModel.getAuth()
     @ObservedObject var viewModel: PlayerTestViewModel
-    @EnvironmentObject var downloadVM: DownloadPlayViewModel // ✅ 注入下载 ViewModel
+    @EnvironmentObject var downloadVM: DownloadPlayViewModel // ✅ Inject download ViewModel
     
-    // ① 持久化上次登录的账号密码
+    // ① Persist last login credentials
     @AppStorage("lastEmail") private var storedEmail: String = ""
     @AppStorage("lastPassword") private var storedPassword: String = ""
 
-    // ② 绑定到输入框的 State
+    // ② State bound to input fields
     @State private var email: String = ""
     @State private var password: String = ""
 
@@ -29,10 +29,10 @@ struct LogInView: View {
     var body: some View {
         NavigationView {
             ZStack(alignment: .topLeading) {
-                // ✅ 页面跳转：成功登录后前往主界面（测试页面）
+                // ✅ Page navigation: Go to main interface (test page) after successful login
                 NavigationLink(
                     destination: MainView(viewModel: viewModel)
-                        .environmentObject(downloadVM), // ✅ 继续传入
+                        .environmentObject(downloadVM), // ✅ Continue passing
                     isActive: $navigateToContentView
                 ) {
                     EmptyView()
@@ -40,7 +40,7 @@ struct LogInView: View {
 
                 VStack {
                     VStack(spacing: 40) {
-                        // 背景设计
+                        // Background design
                         ZStack {
                             Ellipse()
                                 .frame(width: 510, height: 478)
@@ -63,7 +63,7 @@ struct LogInView: View {
                                 .padding(.leading, 20)
                         }
 
-                        // 输入框区域
+                        // Input fields area
                         VStack(spacing: 30) {
                             CustomTextField(
                                 placeholder: "Email",
@@ -88,7 +88,7 @@ struct LogInView: View {
                                     .multilineTextAlignment(.center)
                             }
 
-                            // 忘记密码 + 登录按钮
+                            // Forgot password + Login button
                             VStack(alignment: .trailing) {
                                 NavigationLink(destination: ForgetPasswordView(), isActive: $showForgetPassword) {
                                     Button("Forgot Password?") {
@@ -102,10 +102,10 @@ struct LogInView: View {
                                         await authViewModel.login(email: email, password: password)
 
                                         if authViewModel.isLoggedIn {
-                                            // ③ 登录成功后保存到本地
+                                            // ③ Save to local storage after successful login
                                             storedEmail = email
                                             storedPassword = password
-                                            // ✅ 登录成功后调用同步
+                                            // ✅ Call sync after successful login
                                             SyncManager.shared.syncDownloadedMusicIfNeeded(viewModel: downloadVM)
                                             navigateToContentView = true
                                         }
@@ -121,7 +121,7 @@ struct LogInView: View {
 
                         Spacer()
 
-                        // 注册按钮
+                        // Sign up button
                         HStack {
                             Text("Don't have an account?")
                                 .fontWeight(.bold)

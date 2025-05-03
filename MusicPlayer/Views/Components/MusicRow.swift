@@ -6,9 +6,9 @@ struct MusicRow: View {
     let isDownloaded: Bool
     @ObservedObject var playerViewModel: PlayerTestViewModel
     let downloadAction: () -> Void
-    var showDivider: Bool = true // 是否显示底部分隔线
+    var showDivider: Bool = true // Whether to show bottom divider
     
-    // 计算当前音乐是否正在播放
+    // Calculate if current music is playing
     private var isPlaying: Bool {
         playerViewModel.currentMusicName == musicName && playerViewModel.isPlaying
     }
@@ -30,7 +30,7 @@ struct MusicRow: View {
                         .foregroundColor(.primary)
                         .lineLimit(1)
                     if isPlaying {
-                        Text("正在播放")
+                        Text("Now Playing")
                             .font(.caption2)
                             .foregroundColor(.blue)
                     }
@@ -38,20 +38,20 @@ struct MusicRow: View {
 
                 Spacer()
 
-                // 右侧按钮，点击弹出小菜单
+                // Right button, click to show menu
                 Menu {
                     if !isDownloaded {
-                        Button("下载", action: downloadAction)
+                        Button("Download", action: downloadAction)
                     } else {
-                        Button("已下载") {}.disabled(true)
+                        Button("Downloaded") {}.disabled(true)
                     }
                     if isDownloaded {
                         if isPlaying {
-                            Button("停止", action: {
+                            Button("Stop", action: {
                                 playerViewModel.stop()
                             })
                         } else {
-                            Button("播放", action: {
+                            Button("Play", action: {
                                 playerViewModel.playDownloadedMusic(musicName)
                             })
                         }

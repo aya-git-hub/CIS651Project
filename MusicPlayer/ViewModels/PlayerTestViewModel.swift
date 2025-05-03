@@ -3,107 +3,107 @@ import Combine
 import SwiftUI
 import AVKit
 
-/// 音乐错误枚举
-/// 用于：定义音乐播放过程中可能发生的错误类型
+/// Music error enumeration
+/// Used for: defining possible error types during music playback
 enum MusicError: Error {
-    case downloadFailed    // 下载失败
-    case fileNotFound      // 文件未找到
-    case invalidURL        // 无效的URL
-    case playbackError     // 播放错误
+    case downloadFailed    // Download failed
+    case fileNotFound      // File not found
+    case invalidURL        // Invalid URL
+    case playbackError     // Playback error
     
-    /// 错误描述
-    /// 用于：显示错误信息给用户
+    /// Error description
+    /// Used for: displaying error messages to users
     var localizedDescription: String {
         switch self {
         case .downloadFailed:
-            return "下载失败"
+            return "Download failed"
         case .fileNotFound:
-            return "文件未找到"
+            return "File not found"
         case .invalidURL:
-            return "无效的URL"
+            return "Invalid URL"
         case .playbackError:
-            return "播放错误"
+            return "Playback error"
         }
     }
 }
 
-/// 通知名称扩展
-/// 用于：定义系统通知名称
+/// Notification name extension
+/// Used for: defining system notification names
 extension Notification.Name {
-    /// 下载完成通知
-    /// 用于：通知下载完成事件
+    /// Download completion notification
+    /// Used for: notifying download completion events
     static let downloadComplete = Notification.Name("downloadComplete")
 }
 
-/// 播放器测试视图模型
-/// 用于：管理播放器测试界面的数据和逻辑
+/// Player test view model
+/// Used for: managing data and logic for the player test interface
 class PlayerTestViewModel: ObservableObject {
     @StateObject private var viewModel = DownloadPlayViewModel.getDownloadPlay()
     
     // MARK: - Published Properties
     
-    /// 播放器类型
-    /// 用于：选择使用哪种播放器实现
+    /// Player type
+    /// Used for: selecting which player implementation to use
     @Published var playerType: PlayerType = .avPlayer {
         didSet {
             setupPlayer()
         }
     }
     
-    /// 是否正在播放
-    /// 用于：UI状态显示
+    /// Whether currently playing
+    /// Used for: UI state display
     @Published var isPlaying = false
     
-    /// 当前播放时间
-    /// 用于：显示播放进度
+    /// Current playback time
+    /// Used for: displaying playback progress
     @Published var currentTime: TimeInterval = 0
     
-    /// 音乐总时长
-    /// 用于：显示音乐时长
+    /// Total music duration
+    /// Used for: displaying music duration
     @Published var duration: TimeInterval = 0
     
-    /// 播放进度
-    /// 用于：进度条显示
+    /// Playback progress
+    /// Used for: progress bar display
     @Published var progress: Double = 0
     
-    /// 播放速率
-    /// 用于：控制播放速度
+    /// Playback rate
+    /// Used for: controlling playback speed
     @Published var playbackRate: Float = 1.0
     
-    /// 错误信息
-    /// 用于：显示错误提示
+    /// Error message
+    /// Used for: displaying error prompts
     @Published var errorMessage: String?
     
-    /// 当前音乐索引
-    /// 用于：跟踪当前播放的音乐
+    /// Current music index
+    /// Used for: tracking currently playing music
     @Published var currentMusicIndex: Int = -1
     
-    /// 当前播放的音乐名称
-    /// 用于：显示当前播放的音乐名称
+    /// Currently playing music name
+    /// Used for: displaying current music name
     @Published var currentMusicName: String = ""
     
-    /// 音乐列表
-    /// 用于：存储可播放的音乐URL
+    /// Music list
+    /// Used for: storing playable music URLs
     @Published var musicList: [URL] = []
     
     // MARK: - Private Properties
     
-    /// 播放器实例
-    /// 用于：控制音乐播放
+    /// Player instance
+    /// Used for: controlling music playback
     private var player: PlayerService
     
-    /// 可取消的订阅集合
-    /// 用于：管理Combine订阅
+    /// Cancellable subscriptions collection
+    /// Used for: managing Combine subscriptions
     private var cancellables = Set<AnyCancellable>()
     
-    /// 音乐缓存
-    /// 用于：缓存音乐URL
+    /// Music cache
+    /// Used for: caching music URLs
     private let musicCache = MusicCache.shared
     
     // MARK: - Initialization
     
-    /// 初始化方法
-    /// 用于：设置播放器和加载音乐
+    /// Initialization method
+    /// Used for: setting up player and loading music
     init() {
         player = PlayerFactory.createPlayer(type: .avPlayer)
         setupBindings()
@@ -113,18 +113,18 @@ class PlayerTestViewModel: ObservableObject {
     
     // MARK: - Public Methods
     
-    /// 播放音乐
-    /// - Parameter url: 音乐文件URL
-    /// 用于：开始播放指定音乐
+    /// Play music
+    /// - Parameter url: Music file URL
+    /// Used for: starting playback of specified music
     func play(url: URL) {
-        // 在后台线程验证文件
+        // Validate file in background thread
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else { return }
             
             do {
                 try self.validateMusicFile(url)
                 
-                // 在主线程更新UI和播放状态
+                // Update UI and playback state on main thread
                 DispatchQueue.main.async { [self] in
                     if let index = self.musicList.firstIndex(of: url) {
                         self.currentMusicIndex = index
@@ -133,12 +133,12 @@ class PlayerTestViewModel: ObservableObject {
                         self.currentMusicIndex = self.musicList.count - 1
                     }
                     
-                    // 更新当前音乐名称和播放状态
+                    // Update current music name and playback state
                     self.currentMusicName = url.lastPathComponent
                     self.viewModel.currentPlayingMusic = self.currentMusicName
                     self.isPlaying = true
                     
-                    // 在后台线程开始播放
+                    // Start playback in background thread
                     DispatchQueue.global(qos: .userInitiated).async {
                         self.player.play(url: url)
                     }
@@ -153,9 +153,9 @@ class PlayerTestViewModel: ObservableObject {
         }
     }
     
-    /// 播放下载的音乐
-    /// - Parameter musicName: 音乐文件名
-    /// 用于：播放已下载的音乐
+    /// Play downloaded music
+    /// - Parameter musicName: Music file name
+    /// Used for: playing downloaded music
     func playDownloadedMusic(_ musicName: String) {
         if let url = getLocalURL(for: musicName) {
             play(url: url)
@@ -164,78 +164,78 @@ class PlayerTestViewModel: ObservableObject {
         }
     }
     
-    /// 播放下一首
-    /// 用于：切换到下一首音乐
+    /// Play next track
+    /// Used for: switching to next music
     func playNext() {
         guard !musicList.isEmpty else { return }
         
-        // 在后台线程处理播放
+        // Handle playback in background thread
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else { return }
             
             let nextIndex = (self.currentMusicIndex + 1) % self.musicList.count
             
-            // 在主线程更新UI
+            // Update UI on main thread
             DispatchQueue.main.async {
                 self.currentMusicIndex = nextIndex
-                // 更新当前音乐名称
+                // Update current music name
                 self.currentMusicName = self.musicList[nextIndex].lastPathComponent
                 self.viewModel.currentPlayingMusic = self.currentMusicName
                 self.syncPlaybackState()
             }
             
-            // 在后台线程开始播放
+            // Start playback in background thread
             self.player.play(url: self.musicList[nextIndex])
             
-            // 预加载下一首
+            // Preload next track
             self.optimizeMusicList()
         }
     }
     
-    /// 播放上一首
-    /// 用于：切换到上一首音乐
+    /// Play previous track
+    /// Used for: switching to previous music
     func playPrevious() {
         guard !musicList.isEmpty else { return }
         
-        // 在后台线程处理播放
+        // Handle playback in background thread
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             guard let self = self else { return }
             
             let previousIndex = (self.currentMusicIndex - 1 + self.musicList.count) % self.musicList.count
             
-            // 在主线程更新UI
+            // Update UI on main thread
             DispatchQueue.main.async {
                 self.currentMusicIndex = previousIndex
-                // 更新当前音乐名称
+                // Update current music name
                 self.currentMusicName = self.musicList[previousIndex].lastPathComponent
                 self.viewModel.currentPlayingMusic = self.currentMusicName
                 self.syncPlaybackState()
             }
             
-            // 在后台线程开始播放
+            // Start playback in background thread
             self.player.play(url: self.musicList[previousIndex])
             
-            // 预加载下一首
+            // Preload next track
             self.optimizeMusicList()
         }
     }
     
-    /// 暂停播放
-    /// 用于：暂停当前播放的音乐
+    /// Pause playback
+    /// Used for: pausing current music playback
     func pause() {
         player.pause()
         syncPlaybackState()
     }
     
-    /// 恢复播放
-    /// 用于：从暂停状态恢复播放
+    /// Resume playback
+    /// Used for: resuming playback from paused state
     func resume() {
         player.resume()
         syncPlaybackState()
     }
     
-    /// 停止播放
-    /// 用于：完全停止播放
+    /// Stop playback
+    /// Used for: completely stopping playback
     func stop() {
         player.stop()
         viewModel.currentPlayingMusic = nil
@@ -245,16 +245,16 @@ class PlayerTestViewModel: ObservableObject {
         syncPlaybackState()
     }
     
-    /// 跳转到指定时间
-    /// - Parameter time: 目标时间点
-    /// 用于：快进/快退功能
+    /// Seek to specified time
+    /// - Parameter time: Target time point
+    /// Used for: fast forward/rewind functionality
     func seek(to time: TimeInterval) {
         player.seek(to: time)
     }
     
-    /// 设置播放速率
-    /// - Parameter rate: 播放速率
-    /// 用于：调整播放速度
+    /// Set playback rate
+    /// - Parameter rate: Playback rate
+    /// Used for: adjusting playback speed
     func setPlaybackRate(_ rate: Float) {
         self.playbackRate = rate
         player.setPlaybackRate(rate)
@@ -262,32 +262,32 @@ class PlayerTestViewModel: ObservableObject {
     
     // MARK: - Private Methods
     
-    /// 设置播放器
-    /// 用于：根据选择的类型创建播放器
+    /// Set up player
+    /// Used for: creating player based on selected type
     private func setupPlayer() {
         player = PlayerFactory.createPlayer(type: playerType)
         setupBindings()
     }
     
-    /// 设置绑定
-    /// 用于：设置播放器状态监听
+    /// Set up bindings
+    /// Used for: setting up player state monitoring
     private func setupBindings() {
-        // 设置播放完成回调
+        // Set up playback completion callback
         player.setCompletionHandler { [weak self] in
             DispatchQueue.main.async {
                 self?.isPlaying = false
-                self?.playNext() // 自动播放下一首
+                self?.playNext() // Auto-play next track
             }
         }
         
-        // 设置错误回调
+        // Set up error callback
         player.setErrorHandler { [weak self] error in
             DispatchQueue.main.async {
                 self?.errorMessage = error.localizedDescription
             }
         }
         
-        // 监听播放状态
+        // Monitor playback state
         Timer.publish(every: 0.1, on: .main, in: .commonModes)
             .autoconnect()
             .sink { [weak self] _ in
@@ -300,10 +300,10 @@ class PlayerTestViewModel: ObservableObject {
             .store(in: &cancellables)
     }
     
-    /// 设置同步
-    /// 用于：设置下载完成监听和定期同步
+    /// Set up synchronization
+    /// Used for: setting up download completion monitoring and periodic synchronization
     private func setupSync() {
-        // 监听下载完成
+        // Monitor download completion
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleDownloadComplete),
@@ -311,23 +311,23 @@ class PlayerTestViewModel: ObservableObject {
             object: nil
         )
         
-        // 定期同步音乐列表
+        // Periodically synchronize music list
         Timer.scheduledTimer(withTimeInterval: 5.0, repeats: true) { [weak self] _ in
             self?.loadDownloadedMusic()
         }
     }
     
-    /// 处理下载完成
-    /// - Parameter notification: 通知对象
-    /// 用于：处理下载完成事件
+    /// Handle download completion
+    /// - Parameter notification: Notification object
+    /// Used for: handling download completion events
     @objc private func handleDownloadComplete(_ notification: Notification) {
         if let musicName = notification.userInfo?["musicName"] as? String {
             loadDownloadedMusic()
         }
     }
     
-    /// 加载下载的音乐
-    /// 用于：加载已下载的音乐文件
+    /// Load downloaded music
+    /// Used for: loading downloaded music files
     private func loadDownloadedMusic() {
         let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
         
@@ -346,10 +346,10 @@ class PlayerTestViewModel: ObservableObject {
         }
     }
     
-    /// 获取本地音乐URL
-    /// - Parameter musicName: 音乐文件名
-    /// - Returns: 音乐文件URL
-    /// 用于：获取已下载音乐的URL
+    /// Get local music URL
+    /// - Parameter musicName: Music file name
+    /// - Returns: Music file URL
+    /// Used for: getting URL of downloaded music
     private func getLocalURL(for musicName: String) -> URL? {
         if let cachedURL = musicCache.getURL(for: musicName) {
             return cachedURL
@@ -360,36 +360,36 @@ class PlayerTestViewModel: ObservableObject {
         return FileManager.default.fileExists(atPath: musicURL.path) ? musicURL : nil
     }
     
-    /// 验证音乐文件
-    /// - Parameter url: 音乐文件URL
-    /// 用于：验证音乐文件是否有效
+    /// Validate music file
+    /// - Parameter url: Music file URL
+    /// Used for: validating if music file is valid
     private func validateMusicFile(_ url: URL) throws {
         guard FileManager.default.fileExists(atPath: url.path) else {
             throw MusicError.fileNotFound
         }
         
-        // 这里可以添加更多的文件验证逻辑
-        // 例如检查文件大小、格式等
+        // Additional file validation logic can be added here
+        // For example, checking file size, format, etc.
     }
     
-    /// 处理错误
-    /// - Parameter error: 错误对象
-    /// 用于：显示错误信息
+    /// Handle error
+    /// - Parameter error: Error object
+    /// Used for: displaying error messages
     private func handleError(_ error: MusicError) {
         errorMessage = error.localizedDescription
     }
     
-    /// 同步播放状态
-    /// 用于：更新下载播放视图模型的当前播放音乐
+    /// Synchronize playback state
+    /// Used for: updating current playing music in download play view model
     private func syncPlaybackState() {
         viewModel.currentPlayingMusic = currentMusicIndex >= 0 ? 
             musicList[currentMusicIndex].lastPathComponent : nil
     }
     
-    /// 优化音乐列表
-    /// 用于：预加载下一首音乐
+    /// Optimize music list
+    /// Used for: preloading next music
     private func optimizeMusicList() {
-        // 在后台线程预加载
+        // Preload in background thread
         DispatchQueue.global(qos: .background).async { [weak self] in
             guard let self = self,
                   self.currentMusicIndex + 1 < self.musicList.count else { return }
